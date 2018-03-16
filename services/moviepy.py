@@ -9,7 +9,7 @@ def createVideoOfListOfClips(clips, output):
         title_mov = title.set_pos((0.05,0.9), relative=True)
 
         # Create video object with text
-        final_clip = CompositeVideoClip([video, title_mov])
+        final_clip = CompositeVideoClip([video, title_mov]).resize( (1280,720) )
         final_clips.append(final_clip)
 
     # Add clips together

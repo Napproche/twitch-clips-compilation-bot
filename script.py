@@ -10,7 +10,7 @@ BLACKLISTED_CHANNELS = ["DisguisedToastHS"]
 if __name__ == "__main__":
     clips = []
         
-    response = twitchService.getTwitchClips(period='week', game='Fortnite', limit=2)
+    response = twitchService.getTwitchClips(period='day', game='Fortnite', limit=20)
     
     for clip in response['clips']:
         # Check if channel isn't blacklisted

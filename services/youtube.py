@@ -188,7 +188,7 @@ def uploadVideoToYouTube(config):
       file=config['file'],
       category=config['category'],
       keywords=config['keywords'],
-      privacyStatus='private'
+      privacyStatus='public'
     )
   except HttpError as e:
     print('An HTTP error %d occurred:\n%s' % (e.resp.status, e.content))
