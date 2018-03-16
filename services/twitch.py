@@ -1,14 +1,19 @@
 import requests
 import os
+import json
 import requests
 import urllib.request
 
-from secrets import TWITCH_CLIENT_ID
+TWITCH_SECRETS_FILE = 'secrets/twitch_secret.json'
+
+def getTwitchClientID():
+    secrets = json.load(open(TWITCH_SECRETS_FILE))['client_id']
+    return secrets
 
 def getTwitchClips(period, game, limit):
     headers = {
         'Accept': 'application/vnd.twitchtv.v5+json',
-        'Client-ID': TWITCH_CLIENT_ID,
+        'Client-ID': getTwitchClientID(),
     }
 
     params = (
