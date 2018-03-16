@@ -15,8 +15,14 @@ def createVideoTitle(clips):
 def createDescription(clips):
     description = ''
     for clip in clips:
-        description += '\n' + clip['title'] + '\n' + 'https://clips.twitch.tv/' + clip['slug'] + '\n'
+        description += '\n' + cleanTitle(clip['title']) + '\n' + ' https://clips.twitch.tv/' + clip['slug'] + '\n'
     return description
 
 def getKeywords():
     return 'Fortnite, Daily, Compilation, Automatic, Bot, Gaming, Twitch, Clips, Twitch clips, Epic Games'
+
+def cleanTitle(title):
+    # Remove < and >
+    title = title.replace("<", "")
+    title = title.replace(">", "")
+    return title
