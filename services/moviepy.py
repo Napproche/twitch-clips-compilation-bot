@@ -1,6 +1,6 @@
 from moviepy.editor import VideoFileClip, concatenate_videoclips, CompositeVideoClip, TextClip
 
-def createVideoOfListOfClips(clips):
+def createVideoOfListOfClips(clips, output):
     final_clips = []
 
     for clip in clips:
@@ -16,4 +16,4 @@ def createVideoOfListOfClips(clips):
     finished = concatenate_videoclips(final_clips, method='compose')
 
     # Render video
-    finished.write_videofile("result.mp4", fps=30)
+    finished.write_videofile(output, fps=30)

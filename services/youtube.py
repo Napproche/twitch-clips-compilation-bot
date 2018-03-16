@@ -174,39 +174,22 @@ def resumableUpload(request):
       print('Sleeping %f seconds and then retrying...' % sleep_seconds)
       time.sleep(sleep_seconds)
 
-def uploadVideoToYouTube():
-  # parser = argparse.ArgumentParser()
-  # parser.add_argument('--file', required=True, help='Video file to upload')
-  # parser.add_argument('--title', help='Video title', default='Test Title')
-  # parser.add_argument('--description', help='Video description', default='Test Description')
-  # parser.add_argument('--category', default='22',
-  #   help='Numeric video category. ' + 'See https://developers.google.com/youtube/v3/docs/videoCategories/list')
-  # parser.add_argument('--keywords', help='Video keywords, comma separated', default='')
-  # parser.add_argument('--privacyStatus', choices=VALID_PRIVACY_STATUSES, default='private', help='Video privacy status.')
-  # args = parser.parse_args()
-
-  # title = "test video uploader"
-  # description = "test"
-  # file = "downloads/Ranger/SpeedyBetterRhinocerosKeepo.mp4"
-  # keywords = "Test, something, else, fortnite"
-
+def uploadVideoToYouTube(config):
   if os.path.isfile(CREDENTIALS_FILE):
     youtube = getAuthenticatedServiceFromStorage()
   else:
     youtube = getAuthenticatedService()
 
-  print(youtube)
-
-  # try:
-  #   initializeUpload(
-  #     youtube,
-  #     title=title,
-  #     description=description,
-  #     file=file,
-  #     category=22,
-  #     keywords=keywords,
-  #     privacyStatus='private'
-  #   )
-  # except HttpError as e:
-  #   print('An HTTP error %d occurred:\n%s' % (e.resp.status, e.content))
+  try:
+    initializeUpload(
+      youtube,
+      title=config['title'],
+      description=config['description'],
+      file=config['file'],
+      category=config['category'],
+      keywords=config['keywords'],
+      privacyStatus='private'
+    )
+  except HttpError as e:
+    print('An HTTP error %d occurred:\n%s' % (e.resp.status, e.content))
     
