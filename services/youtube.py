@@ -43,7 +43,8 @@ RETRIABLE_STATUS_CODES = [500, 502, 503, 504]
 #   https://developers.google.com/youtube/v3/guides/authentication
 # For more information about the client_secrets.json file format, see:
 #   https://developers.google.com/api-client-library/python/guide/aaa_client_secrets
-CLIENT_SECRETS_FILE = 'client_secret.json'
+CLIENT_SECRETS_FILE = 'secrets/youtube_client_secret.json'
+CREDENTIALS_FILE = 'secrets/youtube_channel_credentials.json'
 
 # This OAuth 2.0 access scope allows an application to upload files to the
 # authenticated user's YouTube channel, but doesn't allow other types of access.
@@ -55,43 +56,56 @@ VALID_PRIVACY_STATUSES = ('public', 'private', 'unlisted')
 
 
 # Authorize the request and store authorization credentials.
-def get_authenticated_service():
+# Used to generate first auth token. Only needs to happen once.
+def getAuthenticatedService():
   flow = InstalledAppFlow.from_client_secrets_file(CLIENT_SECRETS_FILE, SCOPES, redirect_uri='urn:ietf:wg:oauth:2.0:oob')
-  # credentials = flow.run_console()
-
-  # Tell the user to go to the authorization URL.
   auth_url, _ = flow.authorization_url(prompt='consent')
-
   print('Please go to this URL: {}'.format(auth_url))
 
   code = input('Enter the authorization code: ')
   credentials = flow.fetch_token(code=code)
-
-  print(credentials)
-
-  # Store credentials in json file.
-  with open('credentials.json', 'w') as outfile:
-    json.dump(json.dumps(credentials, default=lambda o: o.__dict__), outfile)
+  saveCredentials(credentials)
 
   return build(API_SERVICE_NAME, API_VERSION, credentials = flow.credentials)
 
-def get_authenticated_service_from_storage():
-  credentials = json.load(open('credentials.json'))
+# Renew credentials after each time being called.
+def getAuthenticatedServiceFromStorage():
+  credentials = getCredentialsFromStorage()
+  os.remove(CREDENTIALS_FILE)
+  saveCredentials(credentials)
+  return build(API_SERVICE_NAME, API_VERSION, credentials = credentials)
+
+# Fetch youtube service from saved credentials.
+def getCredentialsFromStorage():
+  credentials = json.load(open(CREDENTIALS_FILE))
   credentials = json.loads(credentials)
 
   with open(CLIENT_SECRETS_FILE, 'r') as json_file:
     client_config = json.load(json_file)
 
-  credentials = google.oauth2.credentials.Credentials(
-    credentials['access_token'],
-    refresh_token=credentials['refresh_token'],
-    token_uri=client_config['installed']['token_uri'],
-    client_id=client_config['installed']['client_id'],
-    client_secret=client_config['installed']['client_secret'])
+  if 'access_token' in credentials:
+    credentials = google.oauth2.credentials.Credentials(
+      credentials['access_token'],
+      refresh_token=credentials['refresh_token'],
+      token_uri=client_config['installed']['token_uri'],
+      client_id=client_config['installed']['client_id'],
+      client_secret=client_config['installed']['client_secret'])
+  else:
+    credentials = google.oauth2.credentials.Credentials(
+      credentials['token'],
+      refresh_token=credentials['_refresh_token'],
+      token_uri=client_config['installed']['token_uri'],
+      client_id=client_config['installed']['client_id'],
+      client_secret=client_config['installed']['client_secret'])
 
-  return build(API_SERVICE_NAME, API_VERSION, credentials = credentials)
+  return credentials
 
-def initialize_upload(youtube, title, description, file, category, keywords, privacyStatus):
+# Store credentials in json file.
+def saveCredentials(credentials):
+  with open(CREDENTIALS_FILE, 'w') as outfile:
+    json.dump(json.dumps(credentials, default=lambda o: o.__dict__), outfile)
+
+def initializeUpload(youtube, title, description, file, category, keywords, privacyStatus):
   tags = keywords.split(',')
 
   body=dict(
@@ -124,11 +138,11 @@ def initialize_upload(youtube, title, description, file, category, keywords, pri
     media_body=MediaFileUpload(file, chunksize=-1, resumable=True)
   )
 
-  resumable_upload(insert_request)
+  resumableUpload(insert_request)
 
 # This method implements an exponential backoff strategy to resume a
 # failed upload.
-def resumable_upload(request):
+def resumableUpload(request):
   response = None
   error = None
   retry = 0
@@ -171,19 +185,20 @@ def uploadVideoToYouTube():
   # parser.add_argument('--privacyStatus', choices=VALID_PRIVACY_STATUSES, default='private', help='Video privacy status.')
   # args = parser.parse_args()
 
-  title = "test video uploader"
-  description = "test"
-  file = "downloads/Ranger/SpeedyBetterRhinocerosKeepo.mp4"
-  keywords = "Test, something, else, fortnite"
+  # title = "test video uploader"
+  # description = "test"
+  # file = "downloads/Ranger/SpeedyBetterRhinocerosKeepo.mp4"
+  # keywords = "Test, something, else, fortnite"
 
-  # youtube = get_authenticated_service()
-
-  youtube = get_authenticated_service_from_storage()
+  if os.path.isfile(CREDENTIALS_FILE):
+    youtube = getAuthenticatedServiceFromStorage()
+  else:
+    youtube = getAuthenticatedService()
 
   print(youtube)
 
   # try:
-  #   initialize_upload(
+  #   initializeUpload(
   #     youtube,
   #     title=title,
   #     description=description,
