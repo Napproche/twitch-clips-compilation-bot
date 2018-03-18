@@ -9,4 +9,4 @@ YOUTUBE_CREDENTIALS_FILE = ROOT_LOCATION + 'secrets/youtube_channel_credentials.
 DATABASE_LOCATION = ROOT_LOCATION + 'videos.db'
 
 # Config
-BLACKLISTED_CHANNELS = ["DisguisedToastHS", "xChocoBars"]
+BLACKLISTED_CHANNELS = [] # Add channel names here
