@@ -13,7 +13,7 @@ if __name__ == "__main__":
     clips = []
     
     # Get popular Twitch clips.
-    response = twitchService.getTwitchClips(period='day', game='Fortnite', limit=20)
+    response = twitchService.getTwitchClips(period='day', game='Fortnite', limit=30)
     
     for clip in response['clips']:
         # Check if channel isn't blacklisted
@@ -30,11 +30,11 @@ if __name__ == "__main__":
             })
 
             # Download clip.
-            # twitchService.downloadTwitchClip(constants.DOWNLOAD_LOCATION, clip)
+            twitchService.downloadTwitchClip(constants.DOWNLOAD_LOCATION, clip)
 
     # Render and save video.
     output = constants.DOWNLOAD_LOCATION + datetime.date.today().strftime("%Y_%m_%d") + '.mp4'
-    # moviePyService.createVideoOfListOfClips(clips, output)
+    moviePyService.createVideoOfListOfClips(clips, output)
 
     connection = databaseService.getDatabaseConnection()
     
