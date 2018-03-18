@@ -4,10 +4,10 @@ import json
 import requests
 import urllib.request
 
-TWITCH_SECRETS_FILE = 'secrets/twitch_secret.json'
+import constants
 
 def getTwitchClientID():
-    secrets = json.load(open(TWITCH_SECRETS_FILE))['client_id']
+    secrets = json.load(open(constants.TWITCH_SECRETS_FILE))['client_id']
     return secrets
 
 def getTwitchClips(period, game, limit):

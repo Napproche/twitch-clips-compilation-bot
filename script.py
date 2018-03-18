@@ -7,17 +7,17 @@ from services import youtube as youtubeService
 from services import meta as metaService
 from services import database as databaseService
 
-BLACKLISTED_CHANNELS = ["DisguisedToastHS", "xChocoBars"]
+import constants
 
 if __name__ == "__main__":
     clips = []
     
     # Get popular Twitch clips.
-    response = twitchService.getTwitchClips(period='day', game='Fortnite', limit=20)
+    response = twitchService.getTwitchClips(period='day', game='Fortnite', limit=2)
     
     for clip in response['clips']:
         # Check if channel isn't blacklisted
-        if clip['broadcaster']['display_name'] not in BLACKLISTED_CHANNELS:
+        if clip['broadcaster']['display_name'] not in constants.BLACKLISTED_CHANNELS:
             # Save clip data. TODO: Save to database
             clips.append({
                 'title': clip['title'],
@@ -30,11 +30,11 @@ if __name__ == "__main__":
             })
 
             # Download clip.
-            twitchService.downloadTwitchClip('downloads/', clip)
+            # twitchService.downloadTwitchClip(constants.DOWNLOAD_LOCATION, clip)
 
     # Render and save video.
-    output = 'downloads/' + datetime.date.today().strftime("%Y_%m_%d") + '.mp4'
-    moviePyService.createVideoOfListOfClips(clips, output)
+    output = constants.DOWNLOAD_LOCATION + datetime.date.today().strftime("%Y_%m_%d") + '.mp4'
+    # moviePyService.createVideoOfListOfClips(clips, output)
 
     connection = databaseService.getDatabaseConnection()
     
