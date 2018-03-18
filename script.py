@@ -13,7 +13,7 @@ if __name__ == "__main__":
     clips = []
     
     # Get popular Twitch clips.
-    response = twitchService.getTwitchClips(period='day', game='Fortnite', limit=2)
+    response = twitchService.getTwitchClips(period='day', game='Fortnite', limit=20)
     
     for clip in response['clips']:
         # Check if channel isn't blacklisted
