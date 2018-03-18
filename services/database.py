@@ -1,7 +1,9 @@
 import sqlite3
 
+import constants
+
 def getDatabaseConnection():
-    conn = sqlite3.connect('videos.db')
+    conn = sqlite3.connect(constants.DATABASE_LOCATION)
     return conn
 
 def initializeDatabaseTables(connection):
