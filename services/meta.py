@@ -15,7 +15,7 @@ def createVideoTitle(clips, video_count):
 def createDescription(clips):
     description = ''
     for clip in clips:
-        description += '\n' + cleanTitle(clip['title']) + '\n' + ' https://clips.twitch.tv/' + clip['slug'] + '\n'
+        description += '\n' + cleanTitle(clip['title']) + '\n' + 'https://clips.twitch.tv/' + clip['slug'] + '\n'
     return description
 
 def getKeywords():
