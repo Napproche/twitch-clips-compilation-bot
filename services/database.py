@@ -41,7 +41,16 @@ def initializeDatabaseTables(connection):
 
     connection.commit()
 
-def insertClip(connection, title, date, type_id, game_id):
+def getCurrentCompilationVideoCount(connection):
+    """
+        Get number to use in video title. (last ID + 1)
+    """
+    c = connection.cursor()
+    t = (1, 1) # game_id and type_id (Fortnite, Day)
+    last_video = c.execute('SELECT * FROM videos WHERE game_id=? AND type_id=? ORDER BY id DESC', t).fetchone()
+    return last_video[0] + 1
+
+def insertVideo(connection, title, date, type_id, game_id):
     c = connection.cursor()
     c.execute("insert into videos (title, date, type_id, game_id) values (?, ?, ?, ?)", (title, date, type_id, game_id))
     connection.commit()

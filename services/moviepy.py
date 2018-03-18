@@ -5,8 +5,8 @@ def createVideoOfListOfClips(clips, output):
 
     for clip in clips:
         video = VideoFileClip("downloads/" + clip['channel'] + '/' + clip['slug'] + '.mp4')
-        title = TextClip(clip['channel'] + ': ' + clip['title'], font='Amiri-regular', color='white', fontsize=42).set_duration(8)
-        title_mov = title.set_pos((0.05,0.9), relative=True)
+        title = TextClip(clip['channel'] + ': ' + clip['title'], font='Amiri-regular', color='white', fontsize=55).set_duration(8)
+        title_mov = title.set_pos((0.05,0.8), relative=True)
 
         # Create video object with text
         final_clip = CompositeVideoClip([video, title_mov]).resize( (1280,720) )

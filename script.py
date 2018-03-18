@@ -9,33 +9,45 @@ from services import database as databaseService
 BLACKLISTED_CHANNELS = ["DisguisedToastHS", "xChocoBars"]
 
 if __name__ == "__main__":
-    # clips = []
-        
-    # response = twitchService.getTwitchClips(period='day', game='Fortnite', limit=20)
+    clips = []
     
-    # for clip in response['clips']:
-    #     # Check if channel isn't blacklisted
-    #     if clip['broadcaster']['display_name'] not in BLACKLISTED_CHANNELS:
-    #         # Save clip data. TODO: Save to database
-    #         clips.append({
-    #             'title': clip['title'],
-    #             'channel': clip['broadcaster']['display_name'],
-    #             'slug': clip['slug'],
-    #             'game': clip['game'],
-    #             'date': clip['created_at'],
-    #             'views': clip['views'],
-    #             'duration': clip['duration'],
-    #         })
+    # Get popular Twitch clips.
+    response = twitchService.getTwitchClips(period='day', game='Fortnite', limit=20)
+    
+    for clip in response['clips']:
+        # Check if channel isn't blacklisted
+        if clip['broadcaster']['display_name'] not in BLACKLISTED_CHANNELS:
+            # Save clip data. TODO: Save to database
+            clips.append({
+                'title': clip['title'],
+                'channel': clip['broadcaster']['display_name'],
+                'slug': clip['slug'],
+                'game': clip['game'],
+                'date': clip['created_at'],
+                'views': clip['views'],
+                'duration': clip['duration'],
+            })
 
-    #         # Download clip
-    #         twitchService.downloadTwitchClip('downloads/', clip)
+            # Download clip.
+            twitchService.downloadTwitchClip('downloads/', clip)
 
-    # output = 'downloads/' + datetime.date.today().strftime("%Y_%m_%d") + '.mp4'
-    # moviePyService.createVideoOfListOfClips(clips, output)
-    # config = metaService.createVideoConfig(clips)
-    # config['file'] = output
-    # youtubeService.uploadVideoToYouTube(config)
+    # Render and save video.
+    output = 'downloads/' + datetime.date.today().strftime("%Y_%m_%d") + '.mp4'
+    moviePyService.createVideoOfListOfClips(clips, output)
 
     connection = databaseService.getDatabaseConnection()
-    # databaseService.insertClip(connection, {})
+    
+    # Get ID to use for this video title. 
+    video_count = databaseService.getCurrentCompilationVideoCount(connection)
+
+    # Create YouTube meta data.
+    config = metaService.createVideoConfig(clips, video_count)
+    config['file'] = output
+
+    # Store compilation video in database.
+    databaseService.insertVideo(connection, config['title'], datetime.date.today(), 1, 1)
     databaseService.closeConnection(connection)
+
+    # # Upload video to YouTube.
+    youtubeService.uploadVideoToYouTube(config)
+

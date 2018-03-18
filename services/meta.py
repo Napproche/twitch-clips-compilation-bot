@@ -1,16 +1,16 @@
-def createVideoConfig(clips):
+def createVideoConfig(clips, video_count):
     config = {}
     
-    config['title'] = createVideoTitle(clips)
+    config['title'] = createVideoTitle(clips, video_count)
     config['description'] = createDescription(clips)
     config['category'] = 20 # Gaming ID
     config['keywords'] = getKeywords()
 
     return config
 
-def createVideoTitle(clips):
-    defualt_title = " | Daily Fortnite Clips"
-    return clips[0]['title'] + defualt_title
+def createVideoTitle(clips, video_count):
+    defualt_title = " | Daily Fortnite Highlights #" + str(video_count)
+    return clips[0]['title'].upper() + defualt_title
 
 def createDescription(clips):
     description = ''
