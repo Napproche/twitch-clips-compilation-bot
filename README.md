@@ -12,13 +12,13 @@ https://developers.google.com/api-client-library/python/samples/samples
 ### Secrets
 
 - Create secrets directory in root.
-- Create twitch_secret.json file with contents:
+- Create `secrets/twitch_secret.json` file with contents:
 ```
 {
     "client_id": "YOUR_ID"
 }
 ``` 
-- Create youtube_channel_credentials.json with your Installed App credentials.
+- Create `secrets/youtube_channel_credentials.json` with your Installed App credentials.
 
 ### Install FFMPEG
 ```

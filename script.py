@@ -1,4 +1,5 @@
 import datetime
+import os
 
 from services import twitch as twitchService
 from services import moviepy as moviePyService
@@ -48,6 +49,8 @@ if __name__ == "__main__":
     databaseService.insertVideo(connection, config['title'], datetime.date.today(), 1, 1)
     databaseService.closeConnection(connection)
 
-    # # Upload video to YouTube.
+    # Upload video to YouTube.
     youtubeService.uploadVideoToYouTube(config)
 
+    # Remove rendered file after uploading.
+    os.remove(output)
