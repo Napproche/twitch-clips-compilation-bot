@@ -8,6 +8,7 @@ https://developers.google.com/api-client-library/python/samples/samples
 `apt install python3.6`
 `apt install python3-pip`
 `pip install -r requirements.txt`
+`apt-get install imagemagick`
 
 ### Secrets
 
@@ -26,3 +27,9 @@ sudo add-apt-repository ppa:kirillshkrogalev/ffmpeg-next
 sudo apt-get update
 sudo apt-get install ffmpeg
 ```
+
+`pip3 install --upgrade google-auth-oauthlib`
+
+
+Fixes:
+https://github.com/Zulko/moviepy/issues/401#issuecomment-278679961

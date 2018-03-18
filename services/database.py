@@ -48,7 +48,10 @@ def getCurrentCompilationVideoCount(connection):
     c = connection.cursor()
     t = (1, 1) # game_id and type_id (Fortnite, Day)
     last_video = c.execute('SELECT * FROM videos WHERE game_id=? AND type_id=? ORDER BY id DESC', t).fetchone()
-    return last_video[0] + 1
+    if last_video:
+        return last_video[0] + 1
+    else:
+        return 1
 
 def insertVideo(connection, title, date, type_id, game_id):
     c = connection.cursor()
