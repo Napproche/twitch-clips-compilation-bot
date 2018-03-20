@@ -10,7 +10,31 @@ def getTwitchClientID():
     secrets = json.load(open(constants.TWITCH_SECRETS_FILE))['client_id']
     return secrets
 
+"""
+    Fetch the amount of clips until we hit the limit.
+"""
 def getTwitchClips(period, game, limit):
+    response = fetchTwitchClips(period, game, 100)
+
+    clips = []
+    counter = 0
+    for clip in response['clips']:
+        if counter < limit:
+            if clip['broadcaster']['display_name'] not in constants.BLACKLISTED_CHANNELS:
+                counter += 1
+                clips.append({
+                    'title': clip['title'],
+                    'channel': clip['broadcaster']['display_name'],
+                    'url': 'https://clips.twitch.tv/' + clip['slug'],
+                    'slug': clip['slug'],
+                    'game': clip['game'],
+                    'date': clip['created_at'],
+                    'views': clip['views'],
+                    'duration': clip['duration'],
+                })
+    return clips 
+
+def fetchTwitchClips(period, game, limit):
     headers = {
         'Accept': 'application/vnd.twitchtv.v5+json',
         'Client-ID': getTwitchClientID(),
@@ -19,7 +43,8 @@ def getTwitchClips(period, game, limit):
     params = (
         ('period', period),
         ('game', game),
-        ('limit', limit)
+        ('limit', limit),
+        ('language', 'en')
     )
 
     response = requests.get('https://api.twitch.tv/kraken/clips/top', headers=headers, params=params)
@@ -27,7 +52,7 @@ def getTwitchClips(period, game, limit):
 
 def downloadTwitchClip(basedir, clip):
     url = clip['url']
-    channel = clip['broadcaster']['display_name']
+    channel = clip['channel']
     filename = clip['slug']
     
     outputpath = (basedir + channel + '/' + filename + '.mp4').replace('\n', '')

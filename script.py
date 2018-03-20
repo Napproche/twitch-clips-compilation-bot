@@ -9,28 +9,13 @@ from services import database as databaseService
 
 import constants
 
-if __name__ == "__main__":
-    clips = []
-    
+if __name__ == "__main__":    
     # Get popular Twitch clips.
-    response = twitchService.getTwitchClips(period='day', game='Fortnite', limit=10)
+    clips = twitchService.getTwitchClips(period='day', game='Fortnite', limit=10)
     
-    for clip in response['clips']:
-        # Check if channel isn't blacklisted
-        if clip['broadcaster']['display_name'] not in constants.BLACKLISTED_CHANNELS:
-            # Save clip data. TODO: Save to database
-            clips.append({
-                'title': clip['title'],
-                'channel': clip['broadcaster']['display_name'],
-                'slug': clip['slug'],
-                'game': clip['game'],
-                'date': clip['created_at'],
-                'views': clip['views'],
-                'duration': clip['duration'],
-            })
-
-            # Download clip.
-            twitchService.downloadTwitchClip(constants.DOWNLOAD_LOCATION, clip)
+    # Download clips.
+    for clip in clips:
+        twitchService.downloadTwitchClip(constants.DOWNLOAD_LOCATION, clip)
 
     # Render and save video.
     output = constants.DOWNLOAD_LOCATION + datetime.date.today().strftime("%Y_%m_%d") + '.mp4'
