@@ -53,7 +53,7 @@ def getCurrentCompilationVideoCount(connection):
     if last_video:
         return last_video[0] + 1
     else:
-        return 1
+        return 0
 
 def insertVideo(connection, title, date, type_id, game_id):
     c = connection.cursor()
