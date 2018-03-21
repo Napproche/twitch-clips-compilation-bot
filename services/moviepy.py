@@ -14,6 +14,11 @@ def createVideoOfListOfClips(clips, output):
         final_clip = CompositeVideoClip([video, title_mov]).resize( (1280,720) )
         final_clips.append(final_clip)
 
+        # Remove from memory
+        del title
+        del video
+        del final_clip
+
     # Add clips together
     finished = concatenate_videoclips(final_clips, method='compose')
 
