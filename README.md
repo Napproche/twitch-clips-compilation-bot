@@ -1,14 +1,19 @@
 # twitch-clip-publisher
-Bot that creates and uploads compilations of popular Twitch clips each day/week/month
+Bot that creates and uploads compilations of popular Twitch clips each day.
 
 ## YouTube Client
 https://developers.google.com/api-client-library/python/samples/samples
 
 ## Setup
-`apt install python3.6`
-`apt install python3-pip`
-`pip install -r requirements.txt`
-`apt-get install imagemagick`
+
+```sudo apt-get update```
+```pip install -r requirements.txt```
+```apt install python3.6```
+```apt install python3-pip```
+```pip3 install --upgrade google-auth-oauthlib```
+```apt-get install imagemagick```
+```sudo add-apt-repository ppa:kirillshkrogalev/ffmpeg-next```
+```sudo apt-get install ffmpeg```
 
 ### Secrets
 
@@ -19,17 +24,11 @@ https://developers.google.com/api-client-library/python/samples/samples
     "client_id": "YOUR_ID"
 }
 ``` 
-- Create `secrets/youtube_channel_credentials.json` with your Installed App credentials.
+- Create `secrets/youtube_channel_credentials.json` with your Installed App credentials from the [Google Cloud Console](https://console.cloud.google.com/apis/credentials)
 
-### Install FFMPEG
-```
-sudo add-apt-repository ppa:kirillshkrogalev/ffmpeg-next
-sudo apt-get update
-sudo apt-get install ffmpeg
-```
+### Cron job
+```30 2 * * * python3 /root/twitch-clip-publisher/script.py```
+(Make sure the path matches the ROOT_LOCATION in the constants.py)
 
-`pip3 install --upgrade google-auth-oauthlib`
-
-
-Fixes:
+### Common issues
 https://github.com/Zulko/moviepy/issues/401#issuecomment-278679961
