@@ -28,8 +28,10 @@ https://developers.google.com/api-client-library/python/samples/samples
 ``` 
 - Create `secrets/youtube_channel_credentials.json` with your Installed App credentials from the [Google Cloud Console](https://console.cloud.google.com/apis/credentials)
 
-### Cron job
-```30 2 * * * python3 /root/twitch-clip-publisher/script.py```
+### Cron jobs
+- ```0 17 * * * python3 /root/twitch-clip-publisher/script.py day Fortnite 10```
+- ```0 17 * * 0 python3 /root/twitch-clip-publisher/script.py week Fortnite 10```
+- ```0 0 1 * * python3 /root/twitch-clip-publisher/script.py month Fortnite 10```
 (Make sure the path matches the ROOT_LOCATION in the constants.py)
 
 ### Common issues
