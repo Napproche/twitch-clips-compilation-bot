@@ -18,13 +18,13 @@ if __name__ == "__main__":
     # Get popular Twitch clips.
     clips = twitchService.getTwitchClips(period=PERIOD, game=GAME, limit=CLIPS)
 
-    # # Download clips.
+    # Download clips.
     for clip in clips:
         twitchService.downloadTwitchClip(constants.DOWNLOAD_LOCATION, clip)
 
     # Render and save video.
     output = constants.DOWNLOAD_LOCATION + datetime.date.today().strftime("%Y_%m_%d") + '.mp4'
-    # moviePyService.createVideoOfListOfClips(clips, output)
+    moviePyService.createVideoOfListOfClips(clips, output)
 
     connection = databaseService.getDatabaseConnection()
     
