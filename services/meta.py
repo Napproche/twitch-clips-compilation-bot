@@ -22,11 +22,11 @@ def createDescription(clips):
     description = ''
     seconds = 0
     for clip in clips:
-        seconds = seconds + clip['duration']
         m, s = divmod(seconds, 60)
         h, m = divmod(m, 60)
         timestamp = ("%02d:%02d" % (m, s))
         description += '\n' + timestamp + ' ' + cleanTitle(clip['title']) + '\n' + 'https://clips.twitch.tv/' + clip['slug'] + '\n'
+        seconds = seconds + clip['duration']
     return description
 
 def getKeywords():

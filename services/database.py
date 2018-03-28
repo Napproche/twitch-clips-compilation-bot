@@ -51,7 +51,6 @@ def getCurrentCompilationVideoCount(connection, period):
 
     t = (1, period) # game_id and type_id (Fortnite, Day)
     last_video = c.execute('SELECT COUNT(*) FROM videos WHERE game_id=? AND type_id=? ORDER BY id DESC', t).fetchone()
-    print(last_video)
     
     if last_video:
         return last_video[0] + 1
