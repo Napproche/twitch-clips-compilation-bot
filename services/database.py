@@ -43,17 +43,20 @@ def initializeDatabaseTables(connection):
 
     connection.commit()
 
-def getCurrentCompilationVideoCount(connection):
+def getCurrentCompilationVideoCount(connection, period):
     """
-        Get number to use in video title. (last ID + 1)
+        Get number to use in video title. (Count of items + 1)
     """
     c = connection.cursor()
-    t = (1, 1) # game_id and type_id (Fortnite, Day)
-    last_video = c.execute('SELECT * FROM videos WHERE game_id=? AND type_id=? ORDER BY id DESC', t).fetchone()
+
+    t = (1, period) # game_id and type_id (Fortnite, Day)
+    last_video = c.execute('SELECT COUNT(*) FROM videos WHERE game_id=? AND type_id=? ORDER BY id DESC', t).fetchone()
+    print(last_video)
+    
     if last_video:
         return last_video[0] + 1
     else:
-        return 0
+        return 1
 
 def insertVideo(connection, title, date, type_id, game_id):
     c = connection.cursor()
@@ -62,3 +65,8 @@ def insertVideo(connection, title, date, type_id, game_id):
 
 def closeConnection(connection):
     connection.close()
+
+def getPeriodObjectID(connection, period):
+    c = connection.cursor()
+    period = c.execute('SELECT * FROM types WHERE period=?', (period,)).fetchone()
+    return period[0]

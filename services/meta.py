@@ -1,15 +1,21 @@
-def createVideoConfig(clips, video_count):
+def createVideoConfig(clips, video_count, period):
     config = {}
     
-    config['title'] = createVideoTitle(clips, video_count)
+    config['title'] = createVideoTitle(clips, video_count, period)
     config['description'] = createDescription(clips)
     config['category'] = 20 # Gaming ID
     config['keywords'] = getKeywords()
 
     return config
 
-def createVideoTitle(clips, video_count):
-    defualt_title = " | Daily Fortnite Highlights #" + str(video_count)
+def createVideoTitle(clips, video_count, period):
+    if period == 'day':
+        defualt_title = " | Fortnite Highlights of the Day #" + str(video_count)
+    elif period == 'week':
+        defualt_title = " | Fortnite Highlights of the Week #" + str(video_count)
+    elif period == 'month':
+        defualt_title = " | Fortnite Highlights of the Month #" + str(video_count)
+
     return clips[0]['title'].upper() + defualt_title
 
 def createDescription(clips):
