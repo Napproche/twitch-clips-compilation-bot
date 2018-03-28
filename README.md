@@ -1,19 +1,21 @@
 # twitch-clip-publisher
 Bot that creates and uploads compilations of popular Twitch clips each day.
 
+Live running example of this bot: https://www.youtube.com/channel/UCxavrT2r-9tsliwOsmRVZ7w
+
 ## YouTube Client
 https://developers.google.com/api-client-library/python/samples/samples
 
 ## Setup
 
-```sudo apt-get update```
-```pip install -r requirements.txt```
-```apt install python3.6```
-```apt install python3-pip```
-```pip3 install --upgrade google-auth-oauthlib```
-```apt-get install imagemagick```
-```sudo add-apt-repository ppa:kirillshkrogalev/ffmpeg-next```
-```sudo apt-get install ffmpeg```
+- ```sudo apt-get update```
+- ```pip install -r requirements.txt```
+- ```apt install python3.6```
+- ```apt install python3-pip```
+- ```pip3 install --upgrade google-auth-oauthlib```
+- ```apt-get install imagemagick```
+- ```sudo add-apt-repository ppa:kirillshkrogalev/ffmpeg-next```
+- ```sudo apt-get install ffmpeg```
 
 ### Secrets
 
