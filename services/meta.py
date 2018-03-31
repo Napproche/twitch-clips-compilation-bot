@@ -25,7 +25,7 @@ def createDescription(clips):
         m, s = divmod(seconds, 60)
         h, m = divmod(m, 60)
         timestamp = ("%02d:%02d" % (m, s))
-        description += '\n' + timestamp + ' ' + cleanTitle(clip['title']) + '\n' + 'https://clips.twitch.tv/' + clip['slug'] + '\n'
+        description += '\n' + timestamp + ' ' + cleanTitle(clip['channel']) + ': '+  cleanTitle(clip['title']) + '\n' + 'https://clips.twitch.tv/' + clip['slug'] + '\n'
         seconds = seconds + clip['duration']
     return description
 
