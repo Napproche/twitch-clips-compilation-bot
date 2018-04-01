@@ -1,12 +1,15 @@
-# Locations
+# General config
 ROOT_LOCATION = "" # End with / if using a location
-DOWNLOAD_LOCATION = ROOT_LOCATION + "downloads/"
-TWITCH_SECRETS_FILE = ROOT_LOCATION + 'secrets/twitch_secret.json'
+DOWNLOAD_LOCATION     = ROOT_LOCATION + "downloads/"
+SECRETS_ROOT_LOCATION = ROOT_LOCATION + "secrets/"
 
-YOUTUBE_CLIENT_SECRETS_FILE = ROOT_LOCATION + 'secrets/youtube_client_secret.json'
-YOUTUBE_CREDENTIALS_FILE = ROOT_LOCATION + 'secrets/youtube_channel_credentials.json'
+# Secrets
+TWITCH_SECRETS_FILE         = SECRETS_ROOT_LOCATION + "twitch_secret.json"
+YOUTUBE_CLIENT_SECRETS_FILE = SECRETS_ROOT_LOCATION + "youtube_client_secret.json"
 
-DATABASE_LOCATION = ROOT_LOCATION + 'videos.db'
+# File that will be created for each channel
+YOUTUBE_CHANNEL_CREDENTIALS_FILE_NAME = "credentials.json"
 
-# Config
-BLACKLISTED_CHANNELS = ["DisguisedToastHS", "xChocoBars", "pokimane", "lilypichu"] # Add channel names here
+DATABASE_LOCATION = ROOT_LOCATION + "videos.db"
+
+BLACKLISTED_CHANNELS = ["DisguisedToastHS", "xChocoBars", "pokimane", "lilypichu"]

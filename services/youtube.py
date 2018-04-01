@@ -46,7 +46,6 @@ RETRIABLE_STATUS_CODES = [500, 502, 503, 504]
 # For more information about the client_secrets.json file format, see:
 #   https://developers.google.com/api-client-library/python/guide/aaa_client_secrets
 CLIENT_SECRETS_FILE = constants.YOUTUBE_CLIENT_SECRETS_FILE
-CREDENTIALS_FILE = constants.YOUTUBE_CREDENTIALS_FILE
 
 # This OAuth 2.0 access scope allows an application to upload files to the
 # authenticated user's YouTube channel, but doesn't allow other types of access.
@@ -59,26 +58,26 @@ VALID_PRIVACY_STATUSES = ('public', 'private', 'unlisted')
 
 # Authorize the request and store authorization credentials.
 # Used to generate first auth token. Only needs to happen once.
-def getAuthenticatedService():
+def getAuthenticatedService(CREDENTIALS_FILE):
   flow = InstalledAppFlow.from_client_secrets_file(CLIENT_SECRETS_FILE, SCOPES, redirect_uri='urn:ietf:wg:oauth:2.0:oob')
   auth_url, _ = flow.authorization_url(prompt='consent')
   print('Please go to this URL: {}'.format(auth_url))
 
   code = input('Enter the authorization code: ')
   credentials = flow.fetch_token(code=code)
-  saveCredentials(credentials)
+  saveCredentials(CREDENTIALS_FILE, credentials)
 
   return build(API_SERVICE_NAME, API_VERSION, credentials = flow.credentials)
 
 # Renew credentials after each time being called.
-def getAuthenticatedServiceFromStorage():
-  credentials = getCredentialsFromStorage()
+def getAuthenticatedServiceFromStorage(CREDENTIALS_FILE):
+  credentials = getCredentialsFromStorage(CREDENTIALS_FILE)
   os.remove(CREDENTIALS_FILE)
-  saveCredentials(credentials)
+  saveCredentials(CREDENTIALS_FILE, credentials)
   return build(API_SERVICE_NAME, API_VERSION, credentials = credentials)
 
 # Fetch youtube service from saved credentials.
-def getCredentialsFromStorage():
+def getCredentialsFromStorage(CREDENTIALS_FILE):
   credentials = json.load(open(CREDENTIALS_FILE))
   credentials = json.loads(credentials)
 
@@ -103,7 +102,8 @@ def getCredentialsFromStorage():
   return credentials
 
 # Store credentials in json file.
-def saveCredentials(credentials):
+def saveCredentials(CREDENTIALS_FILE, credentials):
+  open(CREDENTIALS_FILE, 'wb')
   with open(CREDENTIALS_FILE, 'w') as outfile:
     json.dump(json.dumps(credentials, default=lambda o: o.__dict__), outfile)
 
@@ -177,21 +177,23 @@ def resumableUpload(request):
       time.sleep(sleep_seconds)
 
 def uploadVideoToYouTube(config):
-  if os.path.isfile(CREDENTIALS_FILE):
-    youtube = getAuthenticatedServiceFromStorage()
-  else:
-    youtube = getAuthenticatedService()
+  CREDENTIALS_FILE = constants.SECRETS_ROOT_LOCATION + config['channel'][1] + '/' + constants.YOUTUBE_CHANNEL_CREDENTIALS_FILE_NAME
 
-  try:
-    initializeUpload(
-      youtube,
-      title=config['title'],
-      description=config['description'],
-      file=config['file'],
-      category=config['category'],
-      keywords=config['keywords'],
-      privacyStatus='public'
-    )
-  except HttpError as e:
-    print('An HTTP error %d occurred:\n%s' % (e.resp.status, e.content))
-    
+  if os.path.isfile(CREDENTIALS_FILE):
+    youtube = getAuthenticatedServiceFromStorage(CREDENTIALS_FILE)
+  else:
+    os.makedirs(constants.SECRETS_ROOT_LOCATION + config['channel'][1])
+    youtube = getAuthenticatedService(CREDENTIALS_FILE)
+
+  # try:
+  #   initializeUpload(
+  #     youtube,
+  #     title=config['title'],
+  #     description=config['description'],
+  #     file=config['file'],
+  #     category=config['category'],
+  #     keywords=config['keywords'],
+  #     privacyStatus='public'
+  #   )
+  # except HttpError as e:
+  #   print('An HTTP error %d occurred:\n%s' % (e.resp.status, e.content))

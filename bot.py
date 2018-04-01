@@ -11,12 +11,15 @@ from services import database as databaseService
 import constants
 
 if __name__ == "__main__":
-    PERIOD = sys.argv[1] 
+    CHANNEL = sys.argv[1]
     GAME = sys.argv[2]
-    CLIPS = int(sys.argv[3])
+    PERIOD = sys.argv[3]
+    CLIPS = int(sys.argv[4])
 
     # Get popular Twitch clips.
     clips = twitchService.getTwitchClips(period=PERIOD, game=GAME, limit=CLIPS)
+
+    print(clips)
 
     # Download clips.
     for clip in clips:
@@ -24,26 +27,33 @@ if __name__ == "__main__":
 
     # Render and save video.
     output = constants.DOWNLOAD_LOCATION + datetime.date.today().strftime("%Y_%m_%d") + '.mp4'
-    moviePyService.createVideoOfListOfClips(clips, output)
+    # moviePyService.createVideoOfListOfClips(clips, output)
 
     connection = databaseService.getDatabaseConnection()
     
-    # Get the type ID of this period.
-    type_id = databaseService.getPeriodObjectID(connection, PERIOD)
+    period = databaseService.getPeriod(connection, PERIOD)
+    channel = databaseService.getChannel(connection, CHANNEL)
+    game = databaseService.getGame(connection, GAME)
 
     # Get ID to use for this video title. 
-    video_count = databaseService.getCurrentCompilationVideoCount(connection, type_id)
+    video_count = databaseService.getCurrentCompilationVideoCount(connection, channel[0], game[0], period[0])
 
     # Create YouTube meta data.
     config = metaService.createVideoConfig(clips, video_count, PERIOD)
     config['file'] = output
+    config['channel'] = channel
 
     # Store compilation video in database.
-    databaseService.insertVideo(connection, config['title'], datetime.date.today(), type_id, 1)
+    databaseService.insertVideo(connection, config['title'], datetime.date.today(), period[0], game[0], channel[0])
     databaseService.closeConnection(connection)
+
+    print(config)
+    print(output)
 
     # Upload video to YouTube.
     youtubeService.uploadVideoToYouTube(config)
 
+    print('done')
+
     # Remove rendered file after uploading.
-    os.remove(output)
+    # os.remove(output)

@@ -42,7 +42,7 @@ def fetchTwitchClips(period, game, limit):
 
     params = (
         ('period', period),
-        ('game', game),
+        ('game', cleanGameText(game)),
         ('limit', limit),
         ('language', 'en')
     )
@@ -76,3 +76,12 @@ def downloadTwitchClip(basedir, clip):
         if chunk: # filter out keep-alive new chunks
             f.write(chunk)
     f.close()
+
+def cleanGameText(game):
+    """
+        Clean the game string so it can be used in API calls.
+    """
+    game = game.replace("_", " ")
+    game = game.replace("%20", " ")
+
+    return game
