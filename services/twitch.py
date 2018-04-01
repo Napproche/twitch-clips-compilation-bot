@@ -83,5 +83,6 @@ def cleanGameText(game):
     """
     game = game.replace("_", " ")
     game = game.replace("%20", " ")
+    game = game.replace("%S1", "'")
 
     return game

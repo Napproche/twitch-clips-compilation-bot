@@ -1,20 +1,20 @@
-def createVideoConfig(clips, video_count, period):
+def createVideoConfig(clips, video_count, period, game):
     config = {}
     
-    config['title'] = createVideoTitle(clips, video_count, period)
+    config['title'] = createVideoTitle(clips, video_count, period, game)
     config['description'] = createDescription(clips)
     config['category'] = 20 # Gaming ID
-    config['keywords'] = getKeywords()
+    config['keywords'] = getKeywords(game)
 
     return config
 
-def createVideoTitle(clips, video_count, period):
+def createVideoTitle(clips, video_count, period, game):
     if period == 'day':
-        defualt_title = " | Fortnite Highlights of the Day #" + str(video_count)
+        defualt_title = " | " + game + " Highlights #" + str(video_count)
     elif period == 'week':
-        defualt_title = " | Fortnite Highlights of the Week #" + str(video_count)
+        defualt_title = " | " + game + " Highlights of the Week #" + str(video_count)
     elif period == 'month':
-        defualt_title = " | Fortnite Highlights of the Month #" + str(video_count)
+        defualt_title = " | " + game + " Highlights of the Month #" + str(video_count)
 
     return clips[0]['title'].upper() + defualt_title
 
@@ -29,8 +29,8 @@ def createDescription(clips):
         seconds = seconds + clip['duration']
     return description
 
-def getKeywords():
-    return 'Fortnite, Daily, Compilation, Automatic, Bot, Gaming, Twitch, Clips, Twitch clips, Epic Games'
+def getKeywords(game):
+    return game + ', Daily, Compilation, Automatic, Bot, Gaming, Twitch, Clips, Twitch clips, Epic Games'
 
 def cleanTitle(title):
     # Remove < and >

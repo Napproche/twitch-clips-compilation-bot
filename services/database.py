@@ -21,7 +21,8 @@ def initializeDatabaseTables(connection):
     c.execute('''
         CREATE TABLE games (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            name TEXT
+            name TEXT,
+            full TEXT
         )''')
 
     c.execute('''
@@ -47,8 +48,15 @@ def initializeDatabaseTables(connection):
     c.execute("INSERT INTO types VALUES (2, 'week')")
     c.execute("INSERT INTO types VALUES (3, 'month')")
 
-    c.execute("INSERT INTO games VALUES (1, 'fortnite')")
-    c.execute("INSERT INTO games VALUES (2, 'overwatch')")
+    c.execute("INSERT INTO games VALUES (1, 'Fortnite', 'Fortnite')")
+    c.execute("INSERT INTO games VALUES (2, 'Overwatch', 'Overwatch')")
+    c.execute("INSERT INTO games VALUES (3, 'League_of_Legends', 'League of Legends')")
+    c.execute("INSERT INTO games VALUES (4, 'Hearthstone', 'Hearthstone')")
+    c.execute("INSERT INTO games VALUES (5, 'Counter-Strike:_Global_Offensive', 'Counter-Strike: Global Offensive')")
+    c.execute("INSERT INTO games VALUES (6, 'PLAYERUNKNOWN%S1S_BATTLEGROUNDS', 'PLAYERUNKNOWNS BATTLEGROUNDS')")
+    c.execute("INSERT INTO games VALUES (7, 'StarCraft_II', 'StarCraft II')")
+    c.execute("INSERT INTO games VALUES (8, 'Dota_2', 'Dota 2')")
+    c.execute("INSERT INTO games VALUES (9, 'Rocket_League', 'Rocket League')")
 
     connection.commit()
 

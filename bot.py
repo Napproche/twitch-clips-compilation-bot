@@ -19,15 +19,13 @@ if __name__ == "__main__":
     # Get popular Twitch clips.
     clips = twitchService.getTwitchClips(period=PERIOD, game=GAME, limit=CLIPS)
 
-    print(clips)
-
     # Download clips.
     for clip in clips:
         twitchService.downloadTwitchClip(constants.DOWNLOAD_LOCATION, clip)
 
     # Render and save video.
     output = constants.DOWNLOAD_LOCATION + datetime.date.today().strftime("%Y_%m_%d") + '.mp4'
-    # moviePyService.createVideoOfListOfClips(clips, output)
+    moviePyService.createVideoOfListOfClips(clips, output)
 
     connection = databaseService.getDatabaseConnection()
     
@@ -39,7 +37,7 @@ if __name__ == "__main__":
     video_count = databaseService.getCurrentCompilationVideoCount(connection, channel[0], game[0], period[0])
 
     # Create YouTube meta data.
-    config = metaService.createVideoConfig(clips, video_count, PERIOD)
+    config = metaService.createVideoConfig(clips, video_count, PERIOD, game[2])
     config['file'] = output
     config['channel'] = channel
 
@@ -47,13 +45,8 @@ if __name__ == "__main__":
     databaseService.insertVideo(connection, config['title'], datetime.date.today(), period[0], game[0], channel[0])
     databaseService.closeConnection(connection)
 
-    print(config)
-    print(output)
-
     # Upload video to YouTube.
     youtubeService.uploadVideoToYouTube(config)
 
-    print('done')
-
     # Remove rendered file after uploading.
-    # os.remove(output)
+    os.remove(output)

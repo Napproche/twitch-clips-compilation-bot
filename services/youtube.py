@@ -185,15 +185,15 @@ def uploadVideoToYouTube(config):
     os.makedirs(constants.SECRETS_ROOT_LOCATION + config['channel'][1])
     youtube = getAuthenticatedService(CREDENTIALS_FILE)
 
-  # try:
-  #   initializeUpload(
-  #     youtube,
-  #     title=config['title'],
-  #     description=config['description'],
-  #     file=config['file'],
-  #     category=config['category'],
-  #     keywords=config['keywords'],
-  #     privacyStatus='public'
-  #   )
-  # except HttpError as e:
-  #   print('An HTTP error %d occurred:\n%s' % (e.resp.status, e.content))
+  try:
+    initializeUpload(
+      youtube,
+      title=config['title'],
+      description=config['description'],
+      file=config['file'],
+      category=config['category'],
+      keywords=config['keywords'],
+      privacyStatus='public'
+    )
+  except HttpError as e:
+    print('An HTTP error %d occurred:\n%s' % (e.resp.status, e.content))
