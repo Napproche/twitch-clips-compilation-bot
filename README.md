@@ -34,15 +34,27 @@ The bot takes 4 parameters:
 ### Cron jobs
 Make sure the path matches the ROOT_LOCATION in the constants.py
 ```
+
 # Fortnite Highlights Creator channel
-0 17 * * * python3 /root/twitch-clip-publisher/bot.py fhc Fortnite day 8
-0 17 * * 0 python3 /root/twitch-clip-publisher/bot.py fhc Fortnite week 8
-0 0 1 * * python3 /root/twitch-clip-publisher/bot.py fhc Fortnite month 8
+0 17 * * * python3 /root/twitch-clip-publisher/bot.py fhc Fortnite day 7
+0 17 * * 0 python3 /root/twitch-clip-publisher/bot.py fhc Fortnite week 7
+0 0 1 * * python3 /root/twitch-clip-publisher/bot.py fhc Fortnite month 7
 
 # Rocket league
-0 17 * * * python3 /root/twitch-clip-publisher/bot.py rlhc Rocket_League day 7
-0 17 * * 0 python3 /root/twitch-clip-publisher/bot.py rlhc Rocket_League week 7
-0 0 1 * * python3 /root/twitch-clip-publisher/bot.py rlhc Rocket_League month 7
+0 18 * * * python3 /root/twitch-clip-publisher/bot.py rlhc Rocket_League day 7
+0 18 * * 0 python3 /root/twitch-clip-publisher/bot.py rlhc Rocket_League week 7
+0 1 1 * * python3 /root/twitch-clip-publisher/bot.py rlhc Rocket_League month 7
+
+# PUBG
+0 16 * * * python3 /root/twitch-clip-publisher/bot.py pubghc PLAYERUNKNOWN%S1S_BATTLEGROUNDS day 7
+0 16 * * 0 python3 /root/twitch-clip-publisher/bot.py pubghc PLAYERUNKNOWN%S1S_BATTLEGROUNDS week 7
+0 2 1 * * python3 /root/twitch-clip-publisher/bot.py pubghc PLAYERUNKNOWN%S1S_BATTLEGROUNDS month 7
+
+# Hearthstone
+0 15 * * * python3 /root/twitch-clip-publisher/bot.py hhc Hearthstone day 7
+0 15 * * 0 python3 /root/twitch-clip-publisher/bot.py hhc Hearthstone week 7
+0 3 1 * * python3 /root/twitch-clip-publisher/bot.py hhc Hearthstone month 7
+
 ```
 
 ### Common issues
