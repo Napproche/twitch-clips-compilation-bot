@@ -1,7 +1,6 @@
 import requests
 import os
 import json
-import requests
 import urllib.request
 
 import constants
@@ -35,7 +34,6 @@ def getTwitchClips(period, game, limit):
                         'thumbnail': clip['thumbnails']['medium'],
                         'vod': clip['vod']
                     })
-    print(len(clips))
     return clips 
 
 def fetchTwitchClips(period, game, limit):
@@ -74,7 +72,7 @@ def downloadTwitchClip(basedir, clip):
 
     # Download file to output path
     print('Downloading: ' + mp4url + ' --> ' + outputpath)
-    r  = requests.get(mp4url)
+    r = requests.get(mp4url)
     f = open(outputpath,'wb')
     for chunk in r.iter_content(chunk_size=255): 
         if chunk: # filter out keep-alive new chunks

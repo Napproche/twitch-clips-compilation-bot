@@ -7,6 +7,7 @@ from services import moviepy as moviePyService
 from services import youtube as youtubeService
 from services import meta as metaService
 from services import database as databaseService
+from services import thumbnail as thumbnailService
 
 import constants
 
@@ -19,13 +20,13 @@ if __name__ == "__main__":
     # Get popular Twitch clips.
     clips = twitchService.getTwitchClips(period=PERIOD, game=GAME, limit=CLIPS)
 
-    # Download clips.
-    for clip in clips:
-        twitchService.downloadTwitchClip(constants.DOWNLOAD_LOCATION, clip)
+    # # Download clips.
+    #for clip in clips:
+    #    twitchService.downloadTwitchClip(constants.DOWNLOAD_LOCATION, clip)
 
-    # Render and save video.
+    # # Render and save video.
     output = constants.DOWNLOAD_LOCATION + datetime.date.today().strftime("%Y_%m_%d") + '.mp4'
-    moviePyService.createVideoOfListOfClips(clips, output)
+    # # moviePyService.createVideoOfListOfClips(clips, output)
 
     connection = databaseService.getDatabaseConnection()
     
@@ -33,20 +34,24 @@ if __name__ == "__main__":
     channel = databaseService.getChannel(connection, CHANNEL)
     game = databaseService.getGame(connection, GAME)
 
-    # Get ID to use for this video title. 
+    # # Get ID to use for this video title. 
     video_count = databaseService.getCurrentCompilationVideoCount(connection, channel[0], game[0], period[0])
 
-    # Create YouTube meta data.
-    config = metaService.createVideoConfig(clips, video_count, PERIOD, game[2])
-    config['file'] = output
-    config['channel'] = channel
+    # Create thumbnail
+    thumbnail = thumbnailService.create(clips[0], video_count, channel[1], game[1], period[1])
+    print(thumbnail)
 
-    # Store compilation video in database.
-    databaseService.insertVideo(connection, config['title'], datetime.date.today(), period[0], game[0], channel[0])
-    databaseService.closeConnection(connection)
+    # # Create YouTube meta data.
+    # config = metaService.createVideoConfig(clips, video_count, PERIOD, game[2])
+    # config['file'] = output
+    # config['channel'] = channel
 
-    # Upload video to YouTube.
-    youtubeService.uploadVideoToYouTube(config)
+    # # Store compilation video in database.
+    # databaseService.insertVideo(connection, config['title'], datetime.date.today(), period[0], game[0], channel[0])
+    # databaseService.closeConnection(connection)
 
-    # Remove rendered file after uploading.
-    os.remove(output)
+    # # Upload video to YouTube.
+    # # youtubeService.uploadVideoToYouTube(config)
+
+    # # Remove rendered file after uploading.
+    # # os.remove(output)
