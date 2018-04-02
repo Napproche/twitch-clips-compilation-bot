@@ -20,18 +20,22 @@ def getTwitchClips(period, game, limit):
     counter = 0
     for clip in response['clips']:
         if counter < limit:
-            if clip['broadcaster']['display_name'] not in constants.BLACKLISTED_CHANNELS:
-                counter += 1
-                clips.append({
-                    'title': clip['title'],
-                    'channel': clip['broadcaster']['display_name'],
-                    'url': 'https://clips.twitch.tv/' + clip['slug'],
-                    'slug': clip['slug'],
-                    'game': clip['game'],
-                    'date': clip['created_at'],
-                    'views': clip['views'],
-                    'duration': clip['duration'],
-                })
+            if isClipUnique(clip, clips):
+                if clip['broadcaster']['display_name'] not in constants.BLACKLISTED_CHANNELS:
+                    counter += 1
+                    clips.append({
+                        'title': clip['title'],
+                        'channel': clip['broadcaster']['display_name'],
+                        'url': 'https://clips.twitch.tv/' + clip['slug'],
+                        'slug': clip['slug'],
+                        'game': clip['game'],
+                        'date': clip['created_at'],
+                        'views': clip['views'],
+                        'duration': clip['duration'],
+                        'thumbnail': clip['thumbnails']['medium'],
+                        'vod': clip['vod']
+                    })
+    print(len(clips))
     return clips 
 
 def fetchTwitchClips(period, game, limit):
@@ -86,3 +90,31 @@ def cleanGameText(game):
     game = game.replace("%S1", "'")
 
     return game
+
+def isClipUnique(clip, clips):
+    """
+        Check if a clip is unique in a list of clips.
+    """
+    # Auto add clips without VOD for now. No way to check if they are duplicates.
+    if clip['vod'] == None:
+        return True
+
+    for c in clips:
+        if c['vod'] is not None:
+            if clip['vod']['id'] == c['vod']['id']:
+                # Clip found with same VOD ID in list. Possible duplicate. Might be a clip from the same stream.
+                # Check to see if the timestamps match to prevent duplicate clips.
+                timestamp = extractTimestampFromVODURL(clip['vod']['url'])
+                possibleDuplicateTimestamp = extractTimestampFromVODURL(c['vod']['url'])
+                if timestamp == possibleDuplicateTimestamp:
+                    return False
+    return True
+
+def extractTimestampFromVODURL(vod_url):
+    """
+        Extracts the timestamp from a twitch VOD URL.
+    """
+    return extractHoursAndMinutesFromTimestamp(vod_url.split('?t=', 1)[1])
+
+def extractHoursAndMinutesFromTimestamp(timestamp):
+    return timestamp.split('m', 1)[0]
