@@ -142,6 +142,12 @@ def initializeUpload(youtube, title, description, file, category, keywords, priv
 
   resumableUpload(insert_request)
 
+def thumbnails_set(client, media_file, **kwargs):
+  request = client.thumbnails().set(media_body=MediaFileUpload(media_file, chunksize=-1, resumable=True), **kwargs)
+
+  # See full sample for function
+  return resumable_upload_thumbnails(request)
+
 # This method implements an exponential backoff strategy to resume a
 # failed upload.
 def resumableUpload(request):
@@ -186,6 +192,7 @@ def uploadVideoToYouTube(config):
     youtube = getAuthenticatedService(CREDENTIALS_FILE)
 
   try:
+    # Upload video
     initializeUpload(
       youtube,
       title=config['title'],
@@ -195,5 +202,42 @@ def uploadVideoToYouTube(config):
       keywords=config['keywords'],
       privacyStatus='public'
     )
+
+    # Upload thumbnail
+    thumbnails_set(youtube, config['thumbnail'], videoId='EYr4_CZ3UxY')
   except HttpError as e:
     print('An HTTP error %d occurred:\n%s' % (e.resp.status, e.content))
+
+def resumable_upload_thumbnails(request, method='insert'):
+  response = None
+  error = None
+  retry = 0
+  while response is None:
+    try:
+      print("Uploading thumbnail...")
+      status, response = request.next_chunk()
+      if response is not None:
+        if method == 'insert' and 'id' in response:
+          print(response)
+        elif method != 'insert' or 'id' not in response:
+          print(response)
+        else:
+          exit("The upload failed with an unexpected response: %s" % response)
+    except HttpError as e:
+      if e.resp.status in RETRIABLE_STATUS_CODES:
+        error = "A retriable HTTP error %d occurred:\n%s" % (e.resp.status, e.content)
+      else:
+        raise
+    except RETRIABLE_EXCEPTIONS as e:
+      error = "A retriable error occurred: %s" % e
+
+    if error is not None:
+      print(error)
+      retry += 1
+      if retry > MAX_RETRIES:
+        exit("No longer attempting to retry.")
+
+      max_sleep = 2 ** retry
+      sleep_seconds = random.random() * max_sleep
+      print("Sleeping %f seconds and then retrying..." % sleep_seconds)
+      time.sleep(sleep_seconds)
