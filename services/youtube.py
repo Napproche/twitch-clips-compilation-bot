@@ -140,7 +140,7 @@ def initializeUpload(youtube, title, description, file, category, keywords, priv
     media_body=MediaFileUpload(file, chunksize=-1, resumable=True)
   )
 
-  resumableUpload(insert_request)
+  return resumableUpload(insert_request)
 
 def thumbnails_set(client, media_file, **kwargs):
   request = client.thumbnails().set(media_body=MediaFileUpload(media_file, chunksize=-1, resumable=True), **kwargs)
@@ -161,6 +161,7 @@ def resumableUpload(request):
       if response is not None:
         if 'id' in response:
           print('Video id "%s" was successfully uploaded.' % response['id'])
+          return response['id']
         else:
           exit('The upload failed with an unexpected response: %s' % response)
     except HttpError as e:
@@ -193,7 +194,7 @@ def uploadVideoToYouTube(config):
 
   try:
     # Upload video
-    initializeUpload(
+    videoId = initializeUpload(
       youtube,
       title=config['title'],
       description=config['description'],
@@ -204,7 +205,7 @@ def uploadVideoToYouTube(config):
     )
 
     # Upload thumbnail
-    thumbnails_set(youtube, config['thumbnail'], videoId='EYr4_CZ3UxY')
+    thumbnails_set(youtube, config['thumbnail'], videoId=videoId)
   except HttpError as e:
     print('An HTTP error %d occurred:\n%s' % (e.resp.status, e.content))
 
