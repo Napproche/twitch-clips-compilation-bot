@@ -24,6 +24,9 @@ The bot takes 4 parameters:
 - ```sudo add-apt-repository ppa:kirillshkrogalev/ffmpeg-next```
 - ```sudo apt-get install ffmpeg```
 
+## Fonts
+Install your fonts in `/usr/local/share/fonts` and reboot.
+
 ### Secrets
 
 - Create secrets directory in root.

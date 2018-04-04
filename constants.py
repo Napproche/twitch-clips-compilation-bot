@@ -16,7 +16,7 @@ DATABASE_LOCATION = ROOT_LOCATION + "videos.db"
 BLACKLISTED_CHANNELS = ["DisguisedToastHS", "xChocoBars", "pokimane", "LilyPichu"]
 
 # Thumbnails
-ASSETS_LOCATION = "assets/"
+ASSETS_LOCATION = ROOT_LOCATION + "assets/"
 FONTS_LOCATION = ASSETS_LOCATION + "fonts/"
 LOGOS_LOCATION = ASSETS_LOCATION + "logos/"
 
