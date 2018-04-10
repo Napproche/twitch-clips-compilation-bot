@@ -18,48 +18,61 @@ if __name__ == "__main__":
     CLIPS = int(sys.argv[4])
 
     logger = Logger('errors.log')
+    logger.broadcast('Starting bot with parameters: {0}, {1}, {2}, {3}'.format(CHANNEL, GAME, PERIOD, CLIPS))
 
-    # Fetch Twitch clips.
     try:
         clips = twitchService.getTwitchClips(period=PERIOD, game=GAME, limit=CLIPS)
     except Exception as e:
         logger.log('Error fetching Twitch clips', e)
 
-    # Download clips.
     try:
         for clip in clips:
             twitchService.downloadTwitchClip(constants.DOWNLOAD_LOCATION, clip)
     except Exception as e:
         logger.log('Error download Twitch clips', e)
 
-    # Render and save video.
-    output = constants.DOWNLOAD_LOCATION + datetime.date.today().strftime("%Y_%m_%d") + '.mp4'
-    moviePyService.createVideoOfListOfClips(clips, output)
+    try:
+        output = constants.DOWNLOAD_LOCATION + datetime.date.today().strftime("%Y_%m_%d") + '.mp4'
+        moviePyService.createVideoOfListOfClips(clips, output)
+    except Exception as e:
+        logger.log('Error rendering video', e)
 
-    connection = databaseService.getDatabaseConnection()
-    
-    period = databaseService.getPeriod(connection, PERIOD)
-    channel = databaseService.getChannel(connection, CHANNEL)
-    game = databaseService.getGame(connection, GAME)
+    try:
+        connection = databaseService.getDatabaseConnection()
 
-    # Get ID to use for this video title. 
-    video_count = databaseService.getCurrentCompilationVideoCount(connection, channel[0], game[0], period[0])
+        period = databaseService.getPeriod(connection, PERIOD)
+        channel = databaseService.getChannel(connection, CHANNEL)
+        game = databaseService.getGame(connection, GAME)
 
-    # Create thumbnail
-    thumbnail = thumbnailService.create(clips[0], video_count, channel[1], game[1], period[1])
+        video_count = databaseService.getCurrentCompilationVideoCount(connection, channel[0], game[0], period[0])
+    except Exception as e:
+        logger.log('Error fetching data from local database', e)
 
-    # Create YouTube meta data.
-    config = metaService.createVideoConfig(clips, video_count, PERIOD, game[2])
-    config['file'] = output
-    config['channel'] = channel
-    config['thumbnail'] = thumbnail
+    try:
+        thumbnail = thumbnailService.create(clips[0], video_count, channel[1], game[1], period[1])
+    except Exception as e:
+        logger.log('Error creating thumbnail', e)
 
-    # Store compilation video in database.
-    databaseService.insertVideo(connection, config['title'], datetime.date.today(), period[0], game[0], channel[0])
-    databaseService.closeConnection(connection)
+    try:
+        config = metaService.createVideoConfig(clips, video_count, PERIOD, game[2])
+        config['file'] = output
+        config['channel'] = channel
+        config['thumbnail'] = thumbnail
+    except Exception as e:
+        logger.log('Error creating YouTube meta data config', e)
 
-    # Upload video to YouTube.
-    youtubeService.uploadVideoToYouTube(config)
+    try:
+        databaseService.insertVideo(connection, config['title'], datetime.date.today(), period[0], game[0], channel[0])
+        databaseService.closeConnection(connection)
+    except Exception as e:
+        logger.log('Error inserting video data in local database', e)
 
-    # Remove rendered file after uploading.
-    os.remove(output)
+    try:
+        youtubeService.uploadVideoToYouTube(config)
+    except Exception as e:
+        logger.log('Error uploading video to YouTube', e)
+
+    try:
+        os.remove(output)
+    except Exception as e:
+        logger.log('Error removing file from server', e)

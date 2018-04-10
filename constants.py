@@ -1,8 +1,9 @@
 # General config
 ROOT_LOCATION = "" # End with / if using a location
-DOWNLOAD_LOCATION     = ROOT_LOCATION + "downloads/"
 SECRETS_ROOT_LOCATION = ROOT_LOCATION + "secrets/"
-THUMBNAILS_LOCATION   = ROOT_LOCATION + "thumbnails/"
+ASSETS_LOCATION = ROOT_LOCATION + "assets/"
+DOWNLOAD_LOCATION = ASSETS_LOCATION + "downloads/"
+THUMBNAILS_LOCATION = ASSETS_LOCATION + "thumbnails/"
 
 # Secrets
 TWITCH_SECRETS_FILE         = SECRETS_ROOT_LOCATION + "twitch_secret.json"
@@ -16,7 +17,6 @@ DATABASE_LOCATION = ROOT_LOCATION + "videos.db"
 BLACKLISTED_CHANNELS = ["DisguisedToastHS", "xChocoBars", "pokimane", "LilyPichu"]
 
 # Thumbnails
-ASSETS_LOCATION = ROOT_LOCATION + "assets/"
 FONTS_LOCATION = ASSETS_LOCATION + "fonts/"
 LOGOS_LOCATION = ASSETS_LOCATION + "logos/"
 
