@@ -1,13 +1,13 @@
-import datetime
-import os
-import sys
+import datetime, os, sys
 
-from services import twitch as twitchService
-from services import moviepy as moviePyService
-from services import youtube as youtubeService
-from services import meta as metaService
-from services import database as databaseService
-from services import thumbnail as thumbnailService
+from core.services import twitch as twitchService
+from core.services import moviepy as moviePyService
+from core.services import youtube as youtubeService
+from core.services import meta as metaService
+from core.services import database as databaseService
+from core.services import thumbnail as thumbnailService
+
+from core.models.logger import Logger
 
 import constants
 
@@ -17,12 +17,20 @@ if __name__ == "__main__":
     PERIOD = sys.argv[3]
     CLIPS = int(sys.argv[4])
 
-    # Get popular Twitch clips.
-    clips = twitchService.getTwitchClips(period=PERIOD, game=GAME, limit=CLIPS)
+    logger = Logger('errors.log')
+
+    # Fetch Twitch clips.
+    try:
+        clips = twitchService.getTwitchClips(period=PERIOD, game=GAME, limit=CLIPS)
+    except Exception as e:
+        logger.log('Error fetching Twitch clips', e)
 
     # Download clips.
-    for clip in clips:
-       twitchService.downloadTwitchClip(constants.DOWNLOAD_LOCATION, clip)
+    try:
+        for clip in clips:
+            twitchService.downloadTwitchClip(constants.DOWNLOAD_LOCATION, clip)
+    except Exception as e:
+        logger.log('Error download Twitch clips', e)
 
     # Render and save video.
     output = constants.DOWNLOAD_LOCATION + datetime.date.today().strftime("%Y_%m_%d") + '.mp4'

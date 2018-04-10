@@ -1,5 +1,6 @@
-downloads
-thumbnails
+assets/downloads
+assets/thumbnails
 __pycache__/
 secrets
 videos.db
+errors.log
