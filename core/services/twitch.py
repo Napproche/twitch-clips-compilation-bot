@@ -15,6 +15,8 @@ def getTwitchClientID():
 def getTwitchClips(period, game, limit):
     response = fetchTwitchClips(period, game, 100)
 
+    print(response)
+
     clips = []
     counter = 0
     for clip in response['clips']:
