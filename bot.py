@@ -24,7 +24,7 @@ if __name__ == "__main__":
         clips = twitchService.getTwitchClips(period=PERIOD, game=GAME, limit=CLIPS)
     except Exception as e:
         logger.log('Error fetching Twitch clips', e)
-
+        
     try:
         for clip in clips:
             twitchService.downloadTwitchClip(constants.DOWNLOAD_LOCATION, clip)

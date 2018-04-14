@@ -15,7 +15,11 @@ def getTwitchClientID():
 def getTwitchClips(period, game, limit):
     response = fetchTwitchClips(period, game, 100)
 
-    print(response)
+    # print(response)
+   
+    # Retry if failed the first time. Twitch API has errors on the first call for some reason.
+    if 'clips' not in response:
+        response = fetchTwitchClips(period, game, 100)
 
     clips = []
     counter = 0
