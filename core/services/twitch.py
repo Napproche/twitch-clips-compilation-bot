@@ -5,27 +5,25 @@ import urllib.request
 
 import constants
 
-def getTwitchClientID():
+def get_client_id():
 	secrets = json.load(open(constants.TWITCH_SECRETS_FILE))['client_id']
 	return secrets
 
 """
 	Fetch the amount of clips until we hit the limit.
 """
-def getTwitchClips(period, game, limit):
-	response = fetchTwitchClips(period, game, 100)
-
-	# print(response)
+def get_twitch_clips(period, game, limit):
+	response = fetch_clips(period, game, 100)
    
 	# Retry if failed the first time. Twitch API has errors on the first call for some reason.
 	if 'clips' not in response:
-		response = fetchTwitchClips(period, game, 100)
+		response = fetch_clips(period, game, 100)
 
 	clips = []
 	counter = 0
 	for clip in response['clips']:
 		if counter < limit:
-			if isClipUnique(clip, clips):
+			if is_clip_unique(clip, clips):
 				if clip['broadcaster']['display_name'] not in constants.BLACKLISTED_CHANNELS:
 					counter += 1
 					clips.append({
@@ -42,15 +40,15 @@ def getTwitchClips(period, game, limit):
 					})
 	return clips 
 
-def fetchTwitchClips(period, game, limit):
+def fetch_clips(period, game, limit):
 	headers = {
 		'Accept': 'application/vnd.twitchtv.v5+json',
-		'Client-ID': getTwitchClientID(),
+		'Client-ID': get_client_id(),
 	}
 
 	params = (
 		('period', period),
-		('game', cleanGameText(game)),
+		('game', clean_text(game)),
 		('limit', limit),
 		('language', 'en')
 	)
@@ -101,17 +99,17 @@ def getMp4UrlByQuality(response, quality):
 
 	return mp4url
 
-def cleanGameText(game):
+def clean_text(text):
 	"""
 		Clean the game string so it can be used in API calls.
 	"""
-	game = game.replace("_", " ")
-	game = game.replace("%20", " ")
-	game = game.replace("%S1", "'")
+	text = text.replace("_", " ")
+	text = text.replace("%20", " ")
+	text = text.replace("%S1", "'")
 
-	return game
+	return text
 
-def isClipUnique(clip, clips):
+def is_clip_unique(clip, clips):
 	"""
 		Check if a clip is unique in a list of clips.
 	"""
