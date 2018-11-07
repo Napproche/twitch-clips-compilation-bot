@@ -1,0 +1,380 @@
+{
+    "clips": [
+        {
+            "slug": "FairSarcasticLettuceCeilingCat",
+            "tracking_id": "335980748",
+            "url": "https://clips.twitch.tv/FairSarcasticLettuceCeilingCat?tt_medium=clips_api&tt_content=url",
+            "embed_url": "https://clips.twitch.tv/embed?clip=FairSarcasticLettuceCeilingCat&tt_medium=clips_api&tt_content=embed",
+            "embed_html": "<iframe src='https://clips.twitch.tv/embed?clip=FairSarcasticLettuceCeilingCat&tt_medium=clips_api&tt_content=embed' width='640' height='360' frameborder='0' scrolling='no' allowfullscreen='true'></iframe>",
+            "broadcaster": {
+                "id": "271597832",
+                "name": "justforblizzcon",
+                "display_name": "justforblizzcon",
+                "channel_url": "https://www.twitch.tv/justforblizzcon",
+                "logo": "https://static-cdn.jtvnw.net/user-default-pictures/49988c7b-57bc-4dee-bd4f-6df4ad215d3a-profile_image-150x150.jpg"
+            },
+            "curator": {
+                "id": "39776142",
+                "name": "mradde09",
+                "display_name": "mradde09",
+                "channel_url": "https://www.twitch.tv/mradde09",
+                "logo": "https://static-cdn.jtvnw.net/user-default-pictures/bb97f7e6-f11a-4194-9708-52bf5a5125e8-profile_image-150x150.jpg"
+            },
+            "vod": null,
+            "broadcast_id": "31051992896",
+            "game": "Ratchet & Clank Future: Quest for Booty",
+            "language": "en",
+            "title": "omegalul",
+            "views": 609631,
+            "duration": 23,
+            "created_at": "2018-11-02T20:23:47Z",
+            "thumbnails": {
+                "medium": "https://clips-media-assets2.twitch.tv/AT-cm%7C335980748-preview-480x272.jpg",
+                "small": "https://clips-media-assets2.twitch.tv/AT-cm%7C335980748-preview-260x147.jpg",
+                "tiny": "https://clips-media-assets2.twitch.tv/AT-cm%7C335980748-preview-86x45.jpg"
+            }
+        },
+        {
+            "slug": "HyperFairGoblinAMPTropPunch",
+            "tracking_id": "337526237",
+            "url": "https://clips.twitch.tv/HyperFairGoblinAMPTropPunch?tt_medium=clips_api&tt_content=url",
+            "embed_url": "https://clips.twitch.tv/embed?clip=HyperFairGoblinAMPTropPunch&tt_medium=clips_api&tt_content=embed",
+            "embed_html": "<iframe src='https://clips.twitch.tv/embed?clip=HyperFairGoblinAMPTropPunch&tt_medium=clips_api&tt_content=embed' width='640' height='360' frameborder='0' scrolling='no' allowfullscreen='true'></iframe>",
+            "broadcaster": {
+                "id": "132230344",
+                "name": "moistcr1tikal",
+                "display_name": "moistcr1tikal",
+                "channel_url": "https://www.twitch.tv/moistcr1tikal",
+                "logo": "https://static-cdn.jtvnw.net/jtv_user_pictures/df6f775d-8794-4cbe-aa85-dbdc72975696-profile_image-150x150.png"
+            },
+            "curator": {
+                "id": "88662328",
+                "name": "mr_sqwert",
+                "display_name": "Mr_SQWERT",
+                "channel_url": "https://www.twitch.tv/mr_sqwert",
+                "logo": "https://static-cdn.jtvnw.net/jtv_user_pictures/5ab78212474201a4-profile_image-150x150.jpeg"
+            },
+            "vod": {
+                "id": "331824502",
+                "url": "https://www.twitch.tv/videos/331824502?t=1h59m54s",
+                "offset": 7194,
+                "preview_image_url": "https://vod-secure.twitch.tv/_404/404_processing_320x240.png"
+            },
+            "broadcast_id": "31100223632",
+            "game": "Old School RuneScape",
+            "language": "en",
+            "title": "When you get hosted by Shroud at a bad time",
+            "views": 424399,
+            "duration": 45.6,
+            "created_at": "2018-11-05T04:16:27Z",
+            "thumbnails": {
+                "medium": "https://clips-media-assets2.twitch.tv/AT-cm%7C337526237-preview-480x272.jpg",
+                "small": "https://clips-media-assets2.twitch.tv/AT-cm%7C337526237-preview-260x147.jpg",
+                "tiny": "https://clips-media-assets2.twitch.tv/AT-cm%7C337526237-preview-86x45.jpg"
+            }
+        },
+        {
+            "slug": "AbstruseDifferentQuailTheRinger",
+            "tracking_id": "335949319",
+            "url": "https://clips.twitch.tv/AbstruseDifferentQuailTheRinger?tt_medium=clips_api&tt_content=url",
+            "embed_url": "https://clips.twitch.tv/embed?clip=AbstruseDifferentQuailTheRinger&tt_medium=clips_api&tt_content=embed",
+            "embed_html": "<iframe src='https://clips.twitch.tv/embed?clip=AbstruseDifferentQuailTheRinger&tt_medium=clips_api&tt_content=embed' width='640' height='360' frameborder='0' scrolling='no' allowfullscreen='true'></iframe>",
+            "broadcaster": {
+                "id": "8822",
+                "name": "blizzard",
+                "display_name": "Blizzard",
+                "channel_url": "https://www.twitch.tv/blizzard",
+                "logo": "https://static-cdn.jtvnw.net/jtv_user_pictures/blizzard-profile_image-ede74b5c45a43edc-150x150.jpeg"
+            },
+            "curator": {
+                "id": "18421254",
+                "name": "fonjask",
+                "display_name": "Fonjask",
+                "channel_url": "https://www.twitch.tv/fonjask",
+                "logo": "https://static-cdn.jtvnw.net/jtv_user_pictures/fonjask-profile_image-241e7c8c4e416f75-150x150.png"
+            },
+            "vod": {
+                "id": "330639009",
+                "url": "https://www.twitch.tv/videos/330639009?t=2h37m20s",
+                "offset": 9440,
+                "preview_image_url": "https://vod-secure.twitch.tv/_404/404_processing_320x240.png"
+            },
+            "broadcast_id": "31052020720",
+            "game": "Special Events",
+            "language": "en",
+            "title": "TLDW of Diablo Immortal announcement",
+            "views": 310853,
+            "duration": 6.28,
+            "created_at": "2018-11-02T19:39:27Z",
+            "thumbnails": {
+                "medium": "https://clips-media-assets2.twitch.tv/AT-cm%7C335949319-preview-480x272.jpg",
+                "small": "https://clips-media-assets2.twitch.tv/AT-cm%7C335949319-preview-260x147.jpg",
+                "tiny": "https://clips-media-assets2.twitch.tv/AT-cm%7C335949319-preview-86x45.jpg"
+            }
+        },
+        {
+            "slug": "LazyPolishedCrocodileLitFam",
+            "tracking_id": "335159458",
+            "url": "https://clips.twitch.tv/LazyPolishedCrocodileLitFam?tt_medium=clips_api&tt_content=url",
+            "embed_url": "https://clips.twitch.tv/embed?clip=LazyPolishedCrocodileLitFam&tt_medium=clips_api&tt_content=embed",
+            "embed_html": "<iframe src='https://clips.twitch.tv/embed?clip=LazyPolishedCrocodileLitFam&tt_medium=clips_api&tt_content=embed' width='640' height='360' frameborder='0' scrolling='no' allowfullscreen='true'></iframe>",
+            "broadcaster": {
+                "id": "232032145",
+                "name": "knightsinclair",
+                "display_name": "knightsinclair",
+                "channel_url": "https://www.twitch.tv/knightsinclair",
+                "logo": "https://static-cdn.jtvnw.net/jtv_user_pictures/bffe0261-6da7-46b9-9e70-c1b4c4f5c0de-profile_image-150x150.jpg"
+            },
+            "curator": {
+                "id": "44320187",
+                "name": "novabeam_23",
+                "display_name": "Novabeam_23",
+                "channel_url": "https://www.twitch.tv/novabeam_23",
+                "logo": "https://static-cdn.jtvnw.net/user-default-pictures/49988c7b-57bc-4dee-bd4f-6df4ad215d3a-profile_image-150x150.jpg"
+            },
+            "vod": {
+                "id": "330100386",
+                "url": "https://www.twitch.tv/videos/330100386?t=27m22s",
+                "offset": 1642,
+                "preview_image_url": "https://static-cdn.jtvnw.net/s3_vods/bc00310924418dd3b682_knightsinclair_31034678720_1008292851/thumb/thumb0-320x240.jpg"
+            },
+            "broadcast_id": "31034678720",
+            "game": "Just Chatting",
+            "language": "en",
+            "title": "THOT EQUATION",
+            "views": 243994,
+            "duration": 57.4,
+            "created_at": "2018-11-01T11:02:57Z",
+            "thumbnails": {
+                "medium": "https://clips-media-assets2.twitch.tv/AT-cm%7C335159458-preview-480x272.jpg",
+                "small": "https://clips-media-assets2.twitch.tv/AT-cm%7C335159458-preview-260x147.jpg",
+                "tiny": "https://clips-media-assets2.twitch.tv/AT-cm%7C335159458-preview-86x45.jpg"
+            }
+        },
+        {
+            "slug": "OutstandingTemperedTofuAMPEnergy",
+            "tracking_id": "337878169",
+            "url": "https://clips.twitch.tv/OutstandingTemperedTofuAMPEnergy?tt_medium=clips_api&tt_content=url",
+            "embed_url": "https://clips.twitch.tv/embed?clip=OutstandingTemperedTofuAMPEnergy&tt_medium=clips_api&tt_content=embed",
+            "embed_html": "<iframe src='https://clips.twitch.tv/embed?clip=OutstandingTemperedTofuAMPEnergy&tt_medium=clips_api&tt_content=embed' width='640' height='360' frameborder='0' scrolling='no' allowfullscreen='true'></iframe>",
+            "broadcaster": {
+                "id": "26261471",
+                "name": "asmongold",
+                "display_name": "Asmongold",
+                "channel_url": "https://www.twitch.tv/asmongold",
+                "logo": "https://static-cdn.jtvnw.net/jtv_user_pictures/asmongold-profile_image-f7ddcbd0332f5d28-150x150.png"
+            },
+            "curator": {
+                "id": "186849044",
+                "name": "shadowcrimson",
+                "display_name": "ShadowCrimson",
+                "channel_url": "https://www.twitch.tv/shadowcrimson",
+                "logo": "https://static-cdn.jtvnw.net/jtv_user_pictures/a620c634-0a53-45f8-97c0-d23dbea40884-profile_image-150x150.jpg"
+            },
+            "vod": {
+                "id": "332036013",
+                "url": "https://www.twitch.tv/videos/332036013?t=3h33m53s",
+                "offset": 12833,
+                "preview_image_url": "https://vod-secure.twitch.tv/_404/404_processing_320x240.png"
+            },
+            "broadcast_id": "31113720000",
+            "game": "World of Warcraft",
+            "language": "en",
+            "title": "Blizzard hates Asmongold",
+            "views": 233870,
+            "duration": 54,
+            "created_at": "2018-11-05T21:55:40Z",
+            "thumbnails": {
+                "medium": "https://clips-media-assets2.twitch.tv/AT-cm%7C337878169-preview-480x272.jpg",
+                "small": "https://clips-media-assets2.twitch.tv/AT-cm%7C337878169-preview-260x147.jpg",
+                "tiny": "https://clips-media-assets2.twitch.tv/AT-cm%7C337878169-preview-86x45.jpg"
+            }
+        },
+        {
+            "slug": "EmpathicLittleReubenTBCheesePull",
+            "tracking_id": "335980812",
+            "url": "https://clips.twitch.tv/EmpathicLittleReubenTBCheesePull?tt_medium=clips_api&tt_content=url",
+            "embed_url": "https://clips.twitch.tv/embed?clip=EmpathicLittleReubenTBCheesePull&tt_medium=clips_api&tt_content=embed",
+            "embed_html": "<iframe src='https://clips.twitch.tv/embed?clip=EmpathicLittleReubenTBCheesePull&tt_medium=clips_api&tt_content=embed' width='640' height='360' frameborder='0' scrolling='no' allowfullscreen='true'></iframe>",
+            "broadcaster": {
+                "id": "126944272",
+                "name": "troopakoopa240",
+                "display_name": "Troopakoopa240",
+                "channel_url": "https://www.twitch.tv/troopakoopa240",
+                "logo": "https://static-cdn.jtvnw.net/jtv_user_pictures/d80b2e6e-021b-4ff6-8835-d5d3d972c7ea-profile_image-150x150.png"
+            },
+            "curator": {
+                "id": "90352716",
+                "name": "vizualgoesele",
+                "display_name": "vizualgoesele",
+                "channel_url": "https://www.twitch.tv/vizualgoesele",
+                "logo": "https://static-cdn.jtvnw.net/user-default-pictures/b83b1794-7df9-4878-916c-88c2ad2e4f9f-profile_image-150x150.jpg"
+            },
+            "vod": null,
+            "broadcast_id": "31050625968",
+            "game": "Diablo III: Reaper of Souls",
+            "language": "en",
+            "title": "LEGEND",
+            "views": 229855,
+            "duration": 30,
+            "created_at": "2018-11-02T20:23:52Z",
+            "thumbnails": {
+                "medium": "https://clips-media-assets2.twitch.tv/31050625968-offset-19912-preview-480x272.jpg",
+                "small": "https://clips-media-assets2.twitch.tv/31050625968-offset-19912-preview-260x147.jpg",
+                "tiny": "https://clips-media-assets2.twitch.tv/31050625968-offset-19912-preview-86x45.jpg"
+            }
+        },
+        {
+            "slug": "AmusedColdKimchiEagleEye",
+            "tracking_id": "335603387",
+            "url": "https://clips.twitch.tv/AmusedColdKimchiEagleEye?tt_medium=clips_api&tt_content=url",
+            "embed_url": "https://clips.twitch.tv/embed?clip=AmusedColdKimchiEagleEye&tt_medium=clips_api&tt_content=embed",
+            "embed_html": "<iframe src='https://clips.twitch.tv/embed?clip=AmusedColdKimchiEagleEye&tt_medium=clips_api&tt_content=embed' width='640' height='360' frameborder='0' scrolling='no' allowfullscreen='true'></iframe>",
+            "broadcaster": {
+                "id": "25458544",
+                "name": "sequisha",
+                "display_name": "Sequisha",
+                "channel_url": "https://www.twitch.tv/sequisha",
+                "logo": "https://static-cdn.jtvnw.net/jtv_user_pictures/sequisha-profile_image-88c3a710aabaed1a-150x150.png"
+            },
+            "curator": {
+                "id": "29609189",
+                "name": "pallender",
+                "display_name": "pallender",
+                "channel_url": "https://www.twitch.tv/pallender",
+                "logo": "https://static-cdn.jtvnw.net/user-default-pictures/27103734-3cda-44d6-a384-f2ab71e4bb85-profile_image-150x150.jpg"
+            },
+            "vod": {
+                "id": "330399517",
+                "url": "https://www.twitch.tv/videos/330399517?t=1h5m32s",
+                "offset": 3932,
+                "preview_image_url": "https://vod-secure.twitch.tv/_404/404_processing_320x240.png"
+            },
+            "broadcast_id": "31044363728",
+            "game": "Fallout 76",
+            "language": "en",
+            "title": "The state of Fallout 76",
+            "views": 225242,
+            "duration": 27.55,
+            "created_at": "2018-11-02T01:38:35Z",
+            "thumbnails": {
+                "medium": "https://clips-media-assets2.twitch.tv/AT-cm%7C335603387-preview-480x272.jpg",
+                "small": "https://clips-media-assets2.twitch.tv/AT-cm%7C335603387-preview-260x147.jpg",
+                "tiny": "https://clips-media-assets2.twitch.tv/AT-cm%7C335603387-preview-86x45.jpg"
+            }
+        },
+        {
+            "slug": "PlainEnthusiasticAlligatorDogFace",
+            "tracking_id": "336304217",
+            "url": "https://clips.twitch.tv/PlainEnthusiasticAlligatorDogFace?tt_medium=clips_api&tt_content=url",
+            "embed_url": "https://clips.twitch.tv/embed?clip=PlainEnthusiasticAlligatorDogFace&tt_medium=clips_api&tt_content=embed",
+            "embed_html": "<iframe src='https://clips.twitch.tv/embed?clip=PlainEnthusiasticAlligatorDogFace&tt_medium=clips_api&tt_content=embed' width='640' height='360' frameborder='0' scrolling='no' allowfullscreen='true'></iframe>",
+            "broadcaster": {
+                "id": "36029255",
+                "name": "riotgames",
+                "display_name": "Riot Games",
+                "channel_url": "https://www.twitch.tv/riotgames",
+                "logo": "https://static-cdn.jtvnw.net/jtv_user_pictures/7033f472-a834-43ff-bf5c-c589e8e35593-profile_image-150x150.png"
+            },
+            "curator": {
+                "id": "179202625",
+                "name": "coming_of_age",
+                "display_name": "Coming_of_Age",
+                "channel_url": "https://www.twitch.tv/coming_of_age",
+                "logo": "https://static-cdn.jtvnw.net/user-default-pictures/bb97f7e6-f11a-4194-9708-52bf5a5125e8-profile_image-150x150.jpg"
+            },
+            "vod": {
+                "id": "330500338",
+                "url": "https://www.twitch.tv/videos/330500338?t=25h2m7s",
+                "offset": 90127,
+                "preview_image_url": "https://vod-secure.twitch.tv/_404/404_processing_320x240.png"
+            },
+            "broadcast_id": "31047409888",
+            "game": "League of Legends",
+            "language": "en",
+            "title": "LEAGUE WTF",
+            "views": 217579,
+            "duration": 17.78,
+            "created_at": "2018-11-03T07:32:59Z",
+            "thumbnails": {
+                "medium": "https://clips-media-assets2.twitch.tv/AT-cm%7C336304217-preview-480x272.jpg",
+                "small": "https://clips-media-assets2.twitch.tv/AT-cm%7C336304217-preview-260x147.jpg",
+                "tiny": "https://clips-media-assets2.twitch.tv/AT-cm%7C336304217-preview-86x45.jpg"
+            }
+        },
+        {
+            "slug": "PunchyImpossibleCoyoteYouWHY",
+            "tracking_id": "335980705",
+            "url": "https://clips.twitch.tv/PunchyImpossibleCoyoteYouWHY?tt_medium=clips_api&tt_content=url",
+            "embed_url": "https://clips.twitch.tv/embed?clip=PunchyImpossibleCoyoteYouWHY&tt_medium=clips_api&tt_content=embed",
+            "embed_html": "<iframe src='https://clips.twitch.tv/embed?clip=PunchyImpossibleCoyoteYouWHY&tt_medium=clips_api&tt_content=embed' width='640' height='360' frameborder='0' scrolling='no' allowfullscreen='true'></iframe>",
+            "broadcaster": {
+                "id": "126944272",
+                "name": "troopakoopa240",
+                "display_name": "Troopakoopa240",
+                "channel_url": "https://www.twitch.tv/troopakoopa240",
+                "logo": "https://static-cdn.jtvnw.net/jtv_user_pictures/d80b2e6e-021b-4ff6-8835-d5d3d972c7ea-profile_image-150x150.png"
+            },
+            "curator": {
+                "id": "48896330",
+                "name": "tikq",
+                "display_name": "Tikq",
+                "channel_url": "https://www.twitch.tv/tikq",
+                "logo": "https://static-cdn.jtvnw.net/user-default-pictures/bb97f7e6-f11a-4194-9708-52bf5a5125e8-profile_image-150x150.jpg"
+            },
+            "vod": null,
+            "broadcast_id": "31050625968",
+            "game": "Diablo III: Reaper of Souls",
+            "language": "en",
+            "title": "April fools?",
+            "views": 203016,
+            "duration": 16.38,
+            "created_at": "2018-11-02T20:23:44Z",
+            "thumbnails": {
+                "medium": "https://clips-media-assets2.twitch.tv/AT-cm%7C335980705-preview-480x272.jpg",
+                "small": "https://clips-media-assets2.twitch.tv/AT-cm%7C335980705-preview-260x147.jpg",
+                "tiny": "https://clips-media-assets2.twitch.tv/AT-cm%7C335980705-preview-86x45.jpg"
+            }
+        },
+        {
+            "slug": "NiceAgitatedCrowKippa",
+            "tracking_id": "335385921",
+            "url": "https://clips.twitch.tv/NiceAgitatedCrowKippa?tt_medium=clips_api&tt_content=url",
+            "embed_url": "https://clips.twitch.tv/embed?clip=NiceAgitatedCrowKippa&tt_medium=clips_api&tt_content=embed",
+            "embed_html": "<iframe src='https://clips.twitch.tv/embed?clip=NiceAgitatedCrowKippa&tt_medium=clips_api&tt_content=embed' width='640' height='360' frameborder='0' scrolling='no' allowfullscreen='true'></iframe>",
+            "broadcaster": {
+                "id": "12943173",
+                "name": "pokelawls",
+                "display_name": "pokelawls",
+                "channel_url": "https://www.twitch.tv/pokelawls",
+                "logo": "https://static-cdn.jtvnw.net/jtv_user_pictures/aa68742d-ae1f-4fb7-9d0c-e1756d5204b0-profile_image-150x150.jpg"
+            },
+            "curator": {
+                "id": "54605460",
+                "name": "juicejuce",
+                "display_name": "juicejuce",
+                "channel_url": "https://www.twitch.tv/juicejuce",
+                "logo": "https://static-cdn.jtvnw.net/jtv_user_pictures/799904d9-7e14-4fae-91f3-869fe2e47c92-profile_image-150x150.jpg"
+            },
+            "vod": {
+                "id": "330078005",
+                "url": "https://www.twitch.tv/videos/330078005?t=13h21m18s",
+                "offset": 48078,
+                "preview_image_url": "https://vod-secure.twitch.tv/_404/404_processing_320x240.png"
+            },
+            "broadcast_id": "31033950496",
+            "game": "Overwatch",
+            "language": "en",
+            "title": "HE DOESN'T KNOW",
+            "views": 201109,
+            "duration": 37.48,
+            "created_at": "2018-11-01T20:01:08Z",
+            "thumbnails": {
+                "medium": "https://clips-media-assets2.twitch.tv/AT-cm%7C335385921-preview-480x272.jpg",
+                "small": "https://clips-media-assets2.twitch.tv/AT-cm%7C335385921-preview-260x147.jpg",
+                "tiny": "https://clips-media-assets2.twitch.tv/AT-cm%7C335385921-preview-86x45.jpg"
+            }
+        }
+    ],
+    "_cursor": "MTA="
+}

@@ -12,21 +12,24 @@ def get_client_id():
 """
 	Fetch the amount of clips until we hit the limit.
 """
-def get_twitch_clips(period, game, limit):
-	response = fetch_clips(period, game, 100)
+def get_top_clips(period, game, limit):
+	response = fetch_top_clips(period, game, 100)
    
 	# Retry if failed the first time. Twitch API has errors on the first call for some reason.
 	if 'clips' not in response:
-		response = fetch_clips(period, game, 100)
+		response = fetch_top_clips(period, game, 100)
 
-	clips = []
+	return format_clips(response['clips'], limit)
+
+def format_clips(clips, limit):
+	formatted_clips = []
 	counter = 0
-	for clip in response['clips']:
+	for clip in clips:
 		if counter < limit:
-			if is_clip_unique(clip, clips):
+			if is_clip_unique(clip, formatted_clips):
 				if clip['broadcaster']['display_name'] not in constants.BLACKLISTED_CHANNELS:
 					counter += 1
-					clips.append({
+					formatted_clips.append({
 						'title': clip['title'],
 						'channel': clip['broadcaster']['display_name'],
 						'url': 'https://clips.twitch.tv/' + clip['slug'],
@@ -38,9 +41,18 @@ def get_twitch_clips(period, game, limit):
 						'thumbnail': clip['thumbnails']['medium'],
 						'vod': clip['vod']
 					})
-	return clips 
+	return formatted_clips 
 
-def fetch_clips(period, game, limit):
+def get_mock_clip():
+	"""
+		Fetch a clip from mock data for testing purposes.
+	"""
+	with open(constants.ASSETS_LOCATION + '/mockdata.json') as f:
+		data = json.load(f)
+
+	return format_clips(data['clips'], limit=1)
+
+def fetch_top_clips(period, game, limit):
 	headers = {
 		'Accept': 'application/vnd.twitchtv.v5+json',
 		'Client-ID': get_client_id(),

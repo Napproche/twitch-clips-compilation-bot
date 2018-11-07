@@ -49,6 +49,7 @@ Make sure the path matches the ROOT_LOCATION in the constants.py
 
 ### Common issues
 https://github.com/Zulko/moviepy/issues/401#issuecomment-278679961
+https://github.com/Zulko/moviepy/issues/378#issuecomment-274163535
 
 ### Assets
 #### YouTube Client

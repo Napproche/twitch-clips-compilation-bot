@@ -22,8 +22,10 @@ if __name__ == "__main__":
     logger.broadcast('Starting bot with parameters: {0}, {1}, {2}, {3}'.format(
         CHANNEL, GAME, PERIOD, CLIPS))
 
-    clips = twitchService.get_twitch_clips(
-        period=PERIOD, game=GAME, limit=CLIPS)
+    clips = twitchService.get_mock_clip()
+
+    # clips = twitchService.get_top_clips(
+    #     period=PERIOD, game=GAME, limit=CLIPS)
 
     database = Database()
     period = database.get_channel(PERIOD)
@@ -31,23 +33,25 @@ if __name__ == "__main__":
     game = database.get_game(GAME)
 
     # for clip in clips:
-        # twitchService.download_clip(constants.DOWNLOAD_LOCATION, clip)
+    #     twitchService.download_clip(constants.DOWNLOAD_LOCATION, clip)
 
     output = constants.DOWNLOAD_LOCATION + \
         datetime.date.today().strftime("%Y_%m_%d") + '.mp4'
-    moviePyService.create_video_of_list_of_clips(clips, output)
 
-    # video_count = databaseService.get_current_compilation_video_count(
-    #     connection, channel[0], game[0], period[0])
+    print('Rendering video to location  %s' % (output))
+    # moviePyService.create_video_of_list_of_clips(clips, output)
 
-    # thumbnail = thumbnailService.create(
-    #     clips[0], video_count, channel[1], game[1], period[1])
+    video_count = database.get_current_compilation_video_count(
+        channel[0], game[0], period[0])
 
-    # config = metaService.create_video_config(
-    #     clips, video_count, PERIOD, game[2])
-    # config['file'] = output
-    # config['channel'] = channel
-    # config['thumbnail'] = thumbnail
+    thumbnail = thumbnailService.create(
+        clips[0], video_count, channel[1], game[1], period[1])
+
+    config = metaService.create_video_config(
+        clips, video_count, PERIOD, game[2])
+    config['file'] = output
+    config['channel'] = channel
+    config['thumbnail'] = thumbnail
 
     # databaseService.insert_video(
     #     connection, config['title'], datetime.date.today(), period[0], game[0], channel[0])
