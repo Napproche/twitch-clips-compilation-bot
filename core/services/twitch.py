@@ -43,14 +43,14 @@ def format_clips(clips, limit):
 					})
 	return formatted_clips 
 
-def get_mock_clip():
+def get_mock_clips(limit):
 	"""
 		Fetch a clip from mock data for testing purposes.
 	"""
 	with open(constants.ASSETS_LOCATION + '/mockdata.json') as f:
 		data = json.load(f)
 
-	return format_clips(data['clips'], limit=1)
+	return format_clips(data['clips'], limit=limit)
 
 def fetch_top_clips(period, game, limit):
 	headers = {

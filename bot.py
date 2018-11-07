@@ -22,7 +22,7 @@ if __name__ == "__main__":
     logger.broadcast('Starting bot with parameters: {0}, {1}, {2}, {3}'.format(
         CHANNEL, GAME, PERIOD, CLIPS))
 
-    clips = twitchService.get_mock_clip()
+    clips = twitchService.get_mock_clips(limit=CLIPS)
 
     # clips = twitchService.get_top_clips(
     #     period=PERIOD, game=GAME, limit=CLIPS)
@@ -32,14 +32,14 @@ if __name__ == "__main__":
     channel = database.get_channel(CHANNEL)
     game = database.get_game(GAME)
 
-    # for clip in clips:
-    #     twitchService.download_clip(constants.DOWNLOAD_LOCATION, clip)
+    for clip in clips:
+        twitchService.download_clip(constants.DOWNLOAD_LOCATION, clip)
 
     output = constants.DOWNLOAD_LOCATION + \
         datetime.date.today().strftime("%Y_%m_%d") + '.mp4'
 
     print('Rendering video to location  %s' % (output))
-    # moviePyService.create_video_of_list_of_clips(clips, output)
+    moviePyService.create_video_of_list_of_clips(clips, output)
 
     video_count = database.get_current_compilation_video_count(
         channel[0], game[0], period[0])
