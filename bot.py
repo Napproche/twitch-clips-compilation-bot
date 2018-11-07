@@ -1,13 +1,14 @@
-import datetime, os, sys
+import datetime
+import os
+import sys
 
 from core.services import twitch as twitchService
 from core.services import moviepy as moviePyService
 from core.services import youtube as youtubeService
 from core.services import meta as metaService
-from core.services import database as databaseService
 from core.services import thumbnail as thumbnailService
-
 from core.models.logger import Logger
+from core.models.database import Database
 
 import constants
 
@@ -18,61 +19,40 @@ if __name__ == "__main__":
     CLIPS = int(sys.argv[4])
 
     logger = Logger('errors.log')
-    logger.broadcast('Starting bot with parameters: {0}, {1}, {2}, {3}'.format(CHANNEL, GAME, PERIOD, CLIPS))
+    logger.broadcast('Starting bot with parameters: {0}, {1}, {2}, {3}'.format(
+        CHANNEL, GAME, PERIOD, CLIPS))
 
-    try:
-        clips = twitchService.getTwitchClips(period=PERIOD, game=GAME, limit=CLIPS)
-    except Exception as e:
-        logger.log('Error fetching Twitch clips', e)
-        
-    try:
-        for clip in clips:
-            twitchService.downloadTwitchClip(constants.DOWNLOAD_LOCATION, clip)
-    except Exception as e:
-        logger.log('Error download Twitch clips', e)
+    clips = twitchService.get_twitch_clips(
+        period=PERIOD, game=GAME, limit=CLIPS)
 
-    try:
-        output = constants.DOWNLOAD_LOCATION + datetime.date.today().strftime("%Y_%m_%d") + '.mp4'
-        moviePyService.createVideoOfListOfClips(clips, output)
-    except Exception as e:
-        logger.log('Error rendering video', e)
+    database = Database()
+    period = database.get_channel(PERIOD)
+    channel = database.get_channel(CHANNEL)
+    game = database.get_game(GAME)
 
-    try:
-        connection = databaseService.getDatabaseConnection()
+    # for clip in clips:
+        # twitchService.download_clip(constants.DOWNLOAD_LOCATION, clip)
 
-        period = databaseService.getPeriod(connection, PERIOD)
-        channel = databaseService.getChannel(connection, CHANNEL)
-        game = databaseService.getGame(connection, GAME)
+    output = constants.DOWNLOAD_LOCATION + \
+        datetime.date.today().strftime("%Y_%m_%d") + '.mp4'
+    moviePyService.create_video_of_list_of_clips(clips, output)
 
-        video_count = databaseService.getCurrentCompilationVideoCount(connection, channel[0], game[0], period[0])
-    except Exception as e:
-        logger.log('Error fetching data from local database', e)
+    # video_count = databaseService.get_current_compilation_video_count(
+    #     connection, channel[0], game[0], period[0])
 
-    try:
-        thumbnail = thumbnailService.create(clips[0], video_count, channel[1], game[1], period[1])
-    except Exception as e:
-        logger.log('Error creating thumbnail', e)
+    # thumbnail = thumbnailService.create(
+    #     clips[0], video_count, channel[1], game[1], period[1])
 
-    try:
-        config = metaService.createVideoConfig(clips, video_count, PERIOD, game[2])
-        config['file'] = output
-        config['channel'] = channel
-        config['thumbnail'] = thumbnail
-    except Exception as e:
-        logger.log('Error creating YouTube meta data config', e)
+    # config = metaService.create_video_config(
+    #     clips, video_count, PERIOD, game[2])
+    # config['file'] = output
+    # config['channel'] = channel
+    # config['thumbnail'] = thumbnail
 
-    try:
-        databaseService.insertVideo(connection, config['title'], datetime.date.today(), period[0], game[0], channel[0])
-        databaseService.closeConnection(connection)
-    except Exception as e:
-        logger.log('Error inserting video data in local database', e)
+    # databaseService.insert_video(
+    #     connection, config['title'], datetime.date.today(), period[0], game[0], channel[0])
+    # databaseService.close_connection(connection)
 
-    try:
-        youtubeService.uploadVideoToYouTube(config)
-    except Exception as e:
-        logger.log('Error uploading video to YouTube', e)
+    # youtubeService.upload_video_to_youtube(config)
 
-    try:
-        os.remove(output)
-    except Exception as e:
-        logger.log('Error removing file from server', e)
+    # os.remove(output)

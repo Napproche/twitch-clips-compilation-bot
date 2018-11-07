@@ -2,7 +2,7 @@ from moviepy.editor import VideoFileClip, concatenate_videoclips, CompositeVideo
 
 import constants
 
-def createVideoOfListOfClips(clips, output):
+def create_video_of_list_of_clips(clips, output):
     final_clips = []
 
     for clip in clips:

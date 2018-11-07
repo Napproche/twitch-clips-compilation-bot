@@ -7,20 +7,20 @@ def create(clip, number, channel, game, period):
     """
         Creates a thumbnail image from a clip and a video number.
     """
-    name = removeSpaces(channel + '_' + game + '_' + period + '_' + str(number)) + '.png'
+    name = remove_spaces(channel + '_' + game + '_' + period + '_' + str(number)) + '.png'
     path = constants.THUMBNAILS_LOCATION + name
 
-    downloadThumbnailFromURL(clip['thumbnail'], path)
+    download_thumbnail_to_location(clip['thumbnail'], path)
     
-    title = addNewLineAfterXChars(clip['title'])
+    title = add_new_line_after_x_chars(clip['title'])
 
-    addTitle(title, path)
-    addNumber(number, path)
-    addGameIcon(game, path)      
+    add_title(title, path)
+    add_number(number, path)
+    add_game_icon(game, path)      
 
     return path
 
-def addTitle(title, path):
+def add_title(title, path):
     img = Image.open(path)
     draw = ImageDraw.Draw(img)
     font = ImageFont.truetype(constants.TITLE_FONT_LOCATION, constants.TITLE_SIZE)
@@ -40,7 +40,7 @@ def addTitle(title, path):
     
     img.save(path)
 
-def addNumber(number, path):
+def add_number(number, path):
     number = "#" + str(number)
 
     img = Image.open(path)
@@ -62,23 +62,23 @@ def addNumber(number, path):
     
     img.save(path)
 
-def addGameIcon(game, path):
+def add_game_icon(game, path):
     background = Image.open(path)
     foreground = Image.open(constants.LOGOS_LOCATION + game + '.png')
 
     background.paste(foreground, (20, 120), foreground)
     background.save(path, format="png")
 
-def downloadThumbnailFromURL(url, location):
+def download_thumbnail_to_location(url, location):
     print('Downloading thumbnail: ' + url)
     f = open(location, 'wb')
     f.write(request.urlopen(url).read())
     f.close()
 
-def removeSpaces(string):
+def remove_spaces(string):
     return string.replace(" ", "_")
 
-def addNewLineAfterXChars(string):
+def add_new_line_after_x_chars(string):
     """
         Add a newline after 18 characters. Counted for 70pt font.
     """

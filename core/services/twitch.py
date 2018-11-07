@@ -56,7 +56,7 @@ def fetch_clips(period, game, limit):
 	response = requests.get('https://api.twitch.tv/kraken/clips/top', headers=headers, params=params)
 	return response.json()
 
-def downloadTwitchClip(basedir, clip):
+def download_clip(basedir, clip):
 	channel = clip['channel']
 	filename = clip['slug']
 	outputpath = (basedir + channel + '/' + filename + '.mp4').replace('\n', '')
@@ -65,7 +65,7 @@ def downloadTwitchClip(basedir, clip):
 	if not os.path.exists(basedir + channel + '/'):
 		os.makedirs(basedir + channel + '/')
 
-	mp4url = getClipMp4Url(clip['slug'])
+	mp4url = get_clip_mp4_url(clip['slug'])
 
 	# Download file to output path
 	print('Downloading: ' + mp4url + ' --> ' + outputpath)
@@ -76,13 +76,13 @@ def downloadTwitchClip(basedir, clip):
 			f.write(chunk)
 	f.close()
 
-def getClipMp4Url(clip_slug):
+def get_clip_mp4_url(clip_slug):
 	url = "https://clips.twitch.tv/api/v2/clips/" + clip_slug + "/status"
 	response = requests.get(url)
-	mp4url = getMp4UrlByQuality(response.json(), '720')
+	mp4url = get_mp4_url_by_quality(response.json(), '720')
 	return mp4url
 
-def getMp4UrlByQuality(response, quality):
+def get_mp4_url_by_quality(response, quality):
 	"""
 		Gets the chosen quality mp4 url from a Twitch status response.
 		Example response: https://clips.twitch.tv/api/v2/clips/HorribleSpicyEelBIRB/status
@@ -122,17 +122,17 @@ def is_clip_unique(clip, clips):
 			if clip['vod']['id'] == c['vod']['id']:
 				# Clip found with same VOD ID in list. Possible duplicate. Might be a clip from the same stream.
 				# Check to see if the timestamps match to prevent duplicate clips.
-				timestamp = extractTimestampFromVODURL(clip['vod']['url'])
-				possibleDuplicateTimestamp = extractTimestampFromVODURL(c['vod']['url'])
+				timestamp = extract_timestamp_from_vod_url(clip['vod']['url'])
+				possibleDuplicateTimestamp = extract_timestamp_from_vod_url(c['vod']['url'])
 				if timestamp == possibleDuplicateTimestamp:
 					return False
 	return True
 
-def extractTimestampFromVODURL(vod_url):
+def extract_timestamp_from_vod_url(vod_url):
 	"""
 		Extracts the timestamp from a twitch VOD URL.
 	"""
-	return extractHoursAndMinutesFromTimestamp(vod_url.split('?t=', 1)[1])
+	return extract_hours_and_minutes_from_timestamp(vod_url.split('?t=', 1)[1])
 
-def extractHoursAndMinutesFromTimestamp(timestamp):
+def extract_hours_and_minutes_from_timestamp(timestamp):
 	return timestamp.split('m', 1)[0]
