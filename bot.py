@@ -15,47 +15,52 @@ import constants
 if __name__ == "__main__":
     CHANNEL = sys.argv[1]
     GAME = sys.argv[2]
-    PERIOD = sys.argv[3]
+    VIDEO_TYPE = sys.argv[3]
     CLIPS = int(sys.argv[4])
 
     logger = Logger('errors.log')
     logger.broadcast('Starting bot with parameters: {0}, {1}, {2}, {3}'.format(
-        CHANNEL, GAME, PERIOD, CLIPS))
+        CHANNEL, GAME, VIDEO_TYPE, CLIPS))
 
-    clips = twitchService.get_mock_clips(limit=CLIPS)
+    # clips = twitchService.get_mock_clips(limit=CLIPS)
 
-    # clips = twitchService.get_top_clips(
-    #     period=PERIOD, game=GAME, limit=CLIPS)
+    clips = twitchService.get_top_clips(period=VIDEO_TYPE, game=GAME, limit=CLIPS)
 
     database = Database()
-    period = database.get_channel(PERIOD)
-    channel = database.get_channel(CHANNEL)
+    video_type = database.get_video_type(VIDEO_TYPE)
+    destination = database.get_destination(CHANNEL)
     game = database.get_game(GAME)
 
-    for clip in clips:
-        twitchService.download_clip(constants.DOWNLOAD_LOCATION, clip)
+    # for clip in clips:
+    #     twitchService.download_clip(constants.DOWNLOAD_LOCATION, clip)
 
     output = constants.DOWNLOAD_LOCATION + \
         datetime.date.today().strftime("%Y_%m_%d") + '.mp4'
 
-    print('Rendering video to location  %s' % (output))
-    moviePyService.create_video_of_list_of_clips(clips, output)
+    # print('Rendering video to location  %s' % (output))
+    # moviePyService.create_video_of_list_of_clips(clips, output)
 
     video_count = database.get_current_compilation_video_count(
-        channel[0], game[0], period[0])
-
+        destination[0], game[0], video_type[0])
     thumbnail = thumbnailService.create(
-        clips[0], video_count, channel[1], game[1], period[1])
+        clips[0], video_count, destination[1], game[1], video_type[1])
 
     config = metaService.create_video_config(
-        clips, video_count, PERIOD, game[2])
+        clips, video_count, VIDEO_TYPE, game[2])
     config['file'] = output
-    config['channel'] = channel
+    config['channel'] = destination
     config['thumbnail'] = thumbnail
 
-    # databaseService.insert_video(
-    #     connection, config['title'], datetime.date.today(), period[0], game[0], channel[0])
-    # databaseService.close_connection(connection)
+    video_id = database.insert_video(config['title'], datetime.date.today(
+    ), video_type[0], game[0], destination[0])
+
+    for clip in clips:
+        channel = database.get_channel(
+            clip['channel_display_name'], clip['channel_slug'], clip['channel_logo'], clip['channel_logo'])
+        clip_id = database.insert_clip(clip['title'], clip['slug'], clip['views'], clip['date'], channel[0], game[0])
+        database.insert_videos_clips(video_id, clip_id)
+
+    database.close_connection()
 
     # youtubeService.upload_video_to_youtube(config)
 

@@ -31,7 +31,10 @@ def format_clips(clips, limit):
 					counter += 1
 					formatted_clips.append({
 						'title': clip['title'],
-						'channel': clip['broadcaster']['display_name'],
+						'channel_display_name': clip['broadcaster']['display_name'],
+						'channel_slug': clip['broadcaster']['name'],
+						'channel_logo': clip['broadcaster']['logo'],
+						'channel_url': clip['broadcaster']['channel_url'],
 						'url': 'https://clips.twitch.tv/' + clip['slug'],
 						'slug': clip['slug'],
 						'game': clip['game'],
@@ -69,7 +72,7 @@ def fetch_top_clips(period, game, limit):
 	return response.json()
 
 def download_clip(basedir, clip):
-	channel = clip['channel']
+	channel = clip['channel_slug']
 	filename = clip['slug']
 	outputpath = (basedir + channel + '/' + filename + '.mp4').replace('\n', '')
 

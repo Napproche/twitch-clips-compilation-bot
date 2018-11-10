@@ -10,7 +10,7 @@ Bot is used for these channels:
 The bot takes 4 parameters:
 - Channel: Channel name to upload to.
 - Game: The name of the game.
-- Period: day/week/month.
+- Video type: day/week/month/compilation.
 - Amount of clips: Amount of clips that will be rendered. 
 
 ## Setup

@@ -3,11 +3,11 @@ import constants
 from urllib import request
 import re
 
-def create(clip, number, channel, game, period):
+def create(clip, number, channel, game, video_type):
     """
         Creates a thumbnail image from a clip and a video number.
     """
-    name = remove_spaces(channel + '_' + game + '_' + period + '_' + str(number)) + '.png'
+    name = remove_spaces(channel + '_' + game + '_' + video_type + '_' + str(number)) + '.png'
     path = constants.THUMBNAILS_LOCATION + name
 
     download_thumbnail_to_location(clip['thumbnail'], path)
