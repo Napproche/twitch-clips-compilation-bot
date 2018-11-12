@@ -8,30 +8,31 @@ from core.services import youtube as youtubeService
 from core.services import meta as metaService
 from core.services import thumbnail as thumbnailService
 from core.models.logger import Logger
-from core.models.database import Database
+
+from core.models.models import Game, Type, Destination, Video, Clip, Channel
 
 import constants
 
 if __name__ == "__main__":
-    CHANNEL = sys.argv[1]
+    DESTINATION = sys.argv[1]
     GAME = sys.argv[2]
     VIDEO_TYPE = sys.argv[3]
     CLIPS = int(sys.argv[4])
 
     logger = Logger('errors.log')
     logger.broadcast('Starting bot with parameters: {0}, {1}, {2}, {3}'.format(
-        CHANNEL, GAME, VIDEO_TYPE, CLIPS))
+        DESTINATION, GAME, VIDEO_TYPE, CLIPS))
 
     # clips = twitchService.get_mock_clips(limit=CLIPS)
     clips = twitchService.get_top_clips(period=VIDEO_TYPE, game=GAME, limit=CLIPS)
 
-    database = Database()
-    video_type = database.get_video_type(VIDEO_TYPE)
-    destination = database.get_destination(CHANNEL)
-    game = database.get_game(GAME)
+    video_type = Type.get(name=VIDEO_TYPE)
+    destination, created = Destination.get_or_create(name=DESTINATION)
+    destination = Destination.get(name=DESTINATION)
+    game = Game.get(name=GAME)
 
-    # for clip in clips:
-    #     twitchService.download_clip(constants.DOWNLOAD_LOCATION, clip)
+    for clip in clips:
+        twitchService.download_clip(constants.DOWNLOAD_LOCATION, clip)
 
     output = constants.DOWNLOAD_LOCATION + \
         datetime.date.today().strftime("%Y_%m_%d") + '.mp4'
@@ -39,28 +40,47 @@ if __name__ == "__main__":
     print('Rendering video to location  %s' % (output))
     # moviePyService.create_video_of_list_of_clips(clips, output)
 
-    video_count = database.get_current_compilation_video_count(
-        destination[0], game[0], video_type[0])
+    video_count = Video.select().where(
+        (Video.destination == destination) &
+        (Video.type == video_type) &
+        (Video.game == game)
+    ).count()
+    video_count += 1
+
     thumbnail = thumbnailService.create(
-        clips[0], video_count, destination[1], game[1], video_type[1])
+        clips[0], video_count, destination.name, game.name, video_type.name)
 
     config = metaService.create_video_config(
-        clips, video_count, VIDEO_TYPE, game[2])
+        clips, video_count, VIDEO_TYPE, game.name)
     config['file'] = output
     config['channel'] = destination
     config['thumbnail'] = thumbnail
 
-    video_id = database.insert_video(config['title'], datetime.date.today(
-    ), video_type[0], game[0], destination[0])
+    video = Video(title=config['title'], game=game,
+                  type=video_type, destination=destination)
+    video.save()
 
-    for clip in clips:
-        channel = database.get_channel(
-            clip['channel_display_name'], clip['channel_slug'], clip['channel_logo'], clip['channel_url'])
-        clip_id = database.insert_clip(clip['title'], clip['slug'], clip['views'], clip['date'], channel[0], game[0])
-        database.insert_videos_clips(video_id, clip_id)
+    for clip_data in clips:
+        channel = Channel.get_or_create(
+            name=clip_data['channel_display_name'],
+            slug=clip_data['channel_slug'],
+            logo=clip_data['channel_logo'],
+            url=clip_data['channel_url']
+        )
 
-    database.close_connection()
+        clip = Clip.get_or_create(
+            title=clip_data['title'],
+            slug=clip_data['slug'],
+            views=clip_data['views'],
+            date=clip_data['date'],
+            used_in_compilation_video=False,
+            channel=channel[0],
+            game=game
+        )
 
-    # youtubeService.upload_video_to_youtube(config)
+        clip = Clip.get(slug=clip_data['slug'])
+        clip.videos.add(video)
 
-    # os.remove(output)
+    youtubeService.upload_video_to_youtube(config)
+
+    os.remove(output)

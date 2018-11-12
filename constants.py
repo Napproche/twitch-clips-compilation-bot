@@ -12,7 +12,7 @@ YOUTUBE_CLIENT_SECRETS_FILE = SECRETS_ROOT_LOCATION + "youtube_client_secret.jso
 # File that will be created for each channel
 YOUTUBE_CHANNEL_CREDENTIALS_FILE_NAME = "credentials.json"
 
-DATABASE_LOCATION = ROOT_LOCATION + "videos.db"
+DATABASE_LOCATION = ROOT_LOCATION + "database.db"
 
 BLACKLISTED_CHANNELS = ["DisguisedToastHS", "xChocoBars", "pokimane", "LilyPichu"]
 

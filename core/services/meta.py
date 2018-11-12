@@ -9,16 +9,16 @@ def create_video_config(clips, video_count, video_type, game):
     return config
 
 def create_video_title(clips, video_count, video_type, game):
-    # if video_type == 'day':
-    #     defualt_title = " | " + game + " Highlights #" + str(video_count)
-    # elif video_type == 'week':
-    #     defualt_title = " | " + game + " Highlights of the Week #" + str(video_count)
-    # elif video_type == 'month':
-    #     defualt_title = " | " + game + " Highlights of the Month #" + str(video_count)
+    if video_type == 'day':
+        defualt_title = " | " + game + " Highlights #" + str(video_count)
+    elif video_type == 'week':
+        defualt_title = " | " + game + " Highlights of the Week #" + str(video_count)
+    elif video_type == 'month':
+        defualt_title = " | " + game + " Highlights of the Month #" + str(video_count)
+    elif video_type == 'compilation':
+        defualt_title = " | " + game + " TODO: USER HERE Compilation #" + str(video_count)
 
-    print(clips[0])
-
-    # return clips[0]['title'].upper() + defualt_title
+    return clips[0]['title'].upper() + defualt_title
 
 def create_video_description(clips):
     description = ''

@@ -1,10 +1,12 @@
-from core.models.database import Database
+from core.models.models import db, Game, Type, Destination, Channel, Clip, Video, VideoClips
 
 if __name__ == "__main__":
-    """
-        Run this script to create the SQLite database.
-        The database is needed for the bot to work properly.
-    """
-    database = Database()
-    database.create_database()
-    database.close_connection()    
+    db.connect()
+    db.create_tables([Game, Type, Destination, Channel, Clip, Video, VideoClips])
+
+    Type.create(name='day')
+    Type.create(name='week')
+    Type.create(name='month')
+    Type.create(name='compilation')
+
+    Game.create(name='Fortnite', full='Fortnite')

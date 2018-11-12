@@ -2,7 +2,7 @@ assets/downloads
 assets/thumbnails
 __pycache__/
 secrets
-videos.db
+database.db
 errors.log
 tcp/
 settings.json
