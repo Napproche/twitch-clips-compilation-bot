@@ -6,9 +6,9 @@ def create_video_of_list_of_clips(clips, output):
     final_clips = []
 
     for clip in clips:
-        path = constants.DOWNLOAD_LOCATION + clip['channel'] + '/' + clip['slug'] + '.mp4'
+        path = constants.DOWNLOAD_LOCATION + clip['channel_slug'] + '/' + clip['slug'] + '.mp4'
         video = VideoFileClip(path)
-        title = TextClip(txt=clip['channel'] + ': ' + clip['title'], font='Amiri-regular', color='white', fontsize=55).set_duration(8)
+        title = TextClip(txt=clip['channel_display_name'] + ': ' + clip['title'], font='Amiri-regular', color='white', fontsize=55).set_duration(8)
         title_mov = title.set_pos((0.05,0.8), relative=True)
 
         # Create video object with text

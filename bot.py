@@ -23,7 +23,6 @@ if __name__ == "__main__":
         CHANNEL, GAME, VIDEO_TYPE, CLIPS))
 
     # clips = twitchService.get_mock_clips(limit=CLIPS)
-
     clips = twitchService.get_top_clips(period=VIDEO_TYPE, game=GAME, limit=CLIPS)
 
     database = Database()
@@ -37,7 +36,7 @@ if __name__ == "__main__":
     output = constants.DOWNLOAD_LOCATION + \
         datetime.date.today().strftime("%Y_%m_%d") + '.mp4'
 
-    # print('Rendering video to location  %s' % (output))
+    print('Rendering video to location  %s' % (output))
     # moviePyService.create_video_of_list_of_clips(clips, output)
 
     video_count = database.get_current_compilation_video_count(
@@ -56,7 +55,7 @@ if __name__ == "__main__":
 
     for clip in clips:
         channel = database.get_channel(
-            clip['channel_display_name'], clip['channel_slug'], clip['channel_logo'], clip['channel_logo'])
+            clip['channel_display_name'], clip['channel_slug'], clip['channel_logo'], clip['channel_url'])
         clip_id = database.insert_clip(clip['title'], clip['slug'], clip['views'], clip['date'], channel[0], game[0])
         database.insert_videos_clips(video_id, clip_id)
 

@@ -39,12 +39,15 @@ class Database:
 
     def get_channel(self, name, slug, logo, url):
         c = self.connection.cursor()
-        channel = c.execute('SELECT * FROM channels WHERE slug=?', (slug,)).fetchone()
+        channel = c.execute(
+            'SELECT * FROM channels WHERE slug=?', (slug,)).fetchone()
         if channel:
             return channel
         else:
-            c.execute("insert into channels (name, slug, logo, url) values (?, ?, ?, ?)", (name, slug, logo, url))
-            channel = c.execute('SELECT * FROM channels WHERE slug=?', (slug,)).fetchone()
+            c.execute(
+                "insert into channels (name, slug, logo, url) values (?, ?, ?, ?)", (name, slug, logo, url))
+            channel = c.execute(
+                'SELECT * FROM channels WHERE slug=?', (slug,)).fetchone()
             self.connection.commit()
             return channel
 
@@ -72,10 +75,20 @@ class Database:
         else:
             return 1
 
-    def insert_video(self, title, date, type_id, game_id, destination_id):
+    def get_compilation_count_by_channel(self, game_id, channel_id):
         c = self.connection.cursor()
-        c.execute("insert into videos (title, date, type_id, game_id, destination_id) values (?, ?, ?, ?, ?)",
-                  (title, date, type_id, game_id, destination_id))
+        last_video = c.execute(
+            'SELECT COUNT(*) FROM videos WHERE type_id=4 AND game_id=? AND channel_id=? ORDER BY id DESC', (game_id, channel_id,)).fetchone()
+
+        if last_video:
+            return last_video[0] + 1
+        else:
+            return 1
+
+    def insert_video(self, title, date, type_id, game_id, destination_id, channel_id=None):
+        c = self.connection.cursor()
+        c.execute("insert into videos (title, date, type_id, game_id, destination_id, channel_id) values (?, ?, ?, ?, ?, ?)",
+                  (title, date, type_id, game_id, destination_id, channel_id))
         self.connection.commit()
         return c.lastrowid
 
@@ -83,30 +96,43 @@ class Database:
         clip = self.does_clip_exist(slug)
         if clip:
             return clip[0]
-        else:  
+        else:
             c = self.connection.cursor()
             c.execute("insert into clips (title, slug, views, date, channel_id, game_id) values (?, ?, ?, ?, ?, ?)",
-                    (title, slug, views, date, channel_id, game_id))
+                      (title, slug, views, date, channel_id, game_id))
             self.connection.commit()
             return c.lastrowid
 
     def does_clip_exist(self, slug):
         c = self.connection.cursor()
-        clip = c.execute('SELECT * FROM clips WHERE slug=?', (slug,)).fetchone()
+        clip = c.execute('SELECT * FROM clips WHERE slug=?',
+                         (slug,)).fetchone()
         return clip if clip else None
 
     def insert_videos_clips(self, video_id, clip_id):
         c = self.connection.cursor()
-        c.execute("insert into videos_clips (video_id, clip_id) values (?, ?)", (video_id, clip_id))
+        c.execute(
+            "insert into videos_clips (video_id, clip_id) values (?, ?)", (video_id, clip_id))
         self.connection.commit()
+
+    def set_clip_used_in_compilation_video_true(self, clip_id):
+        c = self.connection.cursor()
+        c.execute(
+            "UPDATE clips SET used_in_compilation_video=1 WHERE id=?", (clip_id,))
+        self.connection.commit()
+
+    def get_all_channels(self):
+        c = self.connection.cursor()
+        return c.execute('SELECT * FROM channels').fetchall()
+
+    def get_clips_by_channel(self, channel_id, used_in_compilation_video):
+        c = self.connection.cursor()
+        return c.execute('SELECT * FROM clips WHERE channel_id=? AND used_in_compilation_video=?', (channel_id, used_in_compilation_video,)).fetchall()
 
     def close_connection(self):
         self.connection.close()
 
     def create_database(self):
-        """
-            Create the database.
-        """
         c = self.connection.cursor()
 
         c.execute('''
@@ -144,6 +170,7 @@ class Database:
                 slug TEXT,
                 views INTEGER,
                 date TEXT,
+                used_in_compilation_video INT DEFAULT 0,
                 channel_id INTEGER,
                 game_id INTEGER,
                 FOREIGN KEY(channel_id) REFERENCES channels(id),
@@ -158,9 +185,11 @@ class Database:
                 type_id INTEGER,
                 game_id INTEGER,
                 destination_id INTEGER,
+                channel_id INTEGER NULL,
                 FOREIGN KEY(type_id) REFERENCES types(id),
                 FOREIGN KEY(game_id) REFERENCES games(id),
-                FOREIGN KEY(destination_id) REFERENCES destinations(id)
+                FOREIGN KEY(destination_id) REFERENCES destinations(id),
+                FOREIGN KEY(channel_id) REFERENCES channels(id)
             )''')
 
         c.execute('''
