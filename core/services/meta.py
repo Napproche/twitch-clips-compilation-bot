@@ -1,24 +1,25 @@
 def create_video_config(clips, video_count, video_type, game):
     config = {}
-    
-    config['title'] = create_video_title(clips, video_count, video_type, game)
-    config['description'] = create_video_description(clips)
     config['category'] = 20 # Gaming ID
     config['keywords'] = get_keywords(game)
 
     return config
 
-def create_video_title(clips, video_count, video_type, game):
-    if video_type == 'day':
-        defualt_title = " | " + game + " Highlights #" + str(video_count)
-    elif video_type == 'week':
-        defualt_title = " | " + game + " Highlights of the Week #" + str(video_count)
-    elif video_type == 'month':
-        defualt_title = " | " + game + " Highlights of the Month #" + str(video_count)
-    elif video_type == 'compilation':
-        defualt_title = " | " + game + " TODO: USER HERE Compilation #" + str(video_count)
+def get_keywords(game):
+    return game + ', Daily, Compilation, Automatic, Bot, Gaming, Twitch, Clips, Twitch clips, Epic Games'
 
-    return clips[0]['title'].upper() + defualt_title
+def create_video_title(clip_title, video_count, video_type, game):
+    default_title = ""
+    if video_type == 'day':
+        default_title = " | " + game + " Highlights #" + str(video_count)
+    elif video_type == 'week':
+        default_title = " | " + game + " Highlights of the Week #" + str(video_count)
+    elif video_type == 'month':
+        default_title = " | " + game + " Highlights of the Month #" + str(video_count)
+    elif video_type == 'compilation':
+        default_title = " | " + game + " TODO: USER HERE Compilation #" + str(video_count)
+
+    return clip_title.upper() + default_title
 
 def create_video_description(clips):
     description = ''
@@ -27,12 +28,9 @@ def create_video_description(clips):
         m, s = divmod(seconds, 60)
         h, m = divmod(m, 60)
         timestamp = ("%02d:%02d" % (m, s))
-        description += '\n' + timestamp + ' ' + clean_title(clip['channel_display_name']) + ': '+  clean_title(clip['title']) + '\n' + 'https://clips.twitch.tv/' + clip['slug'] + '\n'
-        seconds = seconds + clip['duration']
+        description += '\n' + timestamp + ' ' + clean_title(clip.channel.name) + ': '+  clean_title(clip.title) + '\n' + 'https://clips.twitch.tv/' + clip.slug + '\n'
+        seconds = seconds + clip.duration
     return description
-
-def get_keywords(game):
-    return game + ', Daily, Compilation, Automatic, Bot, Gaming, Twitch, Clips, Twitch clips, Epic Games'
 
 def clean_title(title):
     # Remove < and >

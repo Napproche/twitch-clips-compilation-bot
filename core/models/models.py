@@ -44,6 +44,8 @@ class Clip(BaseModel):
     title = CharField()
     slug = CharField(unique=True)
     views = IntegerField()
+    thumbnail = CharField()
+    duration = DecimalField()
     date = DateTimeField()
     used_in_compilation_video = BooleanField()
     channel = ForeignKeyField(Channel, backref='clips')

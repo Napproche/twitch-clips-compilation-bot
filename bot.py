@@ -38,25 +38,18 @@ if __name__ == "__main__":
         datetime.date.today().strftime("%Y_%m_%d") + '.mp4'
 
     print('Rendering video to location  %s' % (output))
-    # moviePyService.create_video_of_list_of_clips(clips, output)
+    moviePyService.create_video_of_list_of_clips(clips, output)
 
     video_count = Video.select().where(
         (Video.destination == destination) &
         (Video.type == video_type) &
         (Video.game == game)
-    ).count()
-    video_count += 1
+    ).count() + 1 
 
-    thumbnail = thumbnailService.create(
-        clips[0], video_count, destination.name, game.name, video_type.name)
+    video_title = metaService.create_video_title(
+        clips[0]['title'], video_count, video_type.name, game.name)
 
-    config = metaService.create_video_config(
-        clips, video_count, VIDEO_TYPE, game.name)
-    config['file'] = output
-    config['channel'] = destination
-    config['thumbnail'] = thumbnail
-
-    video = Video(title=config['title'], game=game,
+    video = Video(title=video_title, game=game,
                   type=video_type, destination=destination)
     video.save()
 
@@ -72,6 +65,8 @@ if __name__ == "__main__":
             title=clip_data['title'],
             slug=clip_data['slug'],
             views=clip_data['views'],
+            thumbnail=clip_data['thumbnail'],
+            duration=clip_data['duration'],
             date=clip_data['date'],
             used_in_compilation_video=False,
             channel=channel[0],
@@ -80,6 +75,18 @@ if __name__ == "__main__":
 
         clip = Clip.get(slug=clip_data['slug'])
         clip.videos.add(video)
+
+    thumbnail = thumbnailService.create(
+        video.clips[0], video_count, destination.name, game.name, video_type.name)
+
+    config = metaService.create_video_config(
+        clips, video_count, VIDEO_TYPE, game.name)
+
+    config['title'] = video_title
+    config['description'] = metaService.create_video_description(video.clips)
+    config['file'] = output
+    config['channel'] = destination
+    config['thumbnail'] = thumbnail
 
     youtubeService.upload_video_to_youtube(config)
 

@@ -7,14 +7,12 @@ def create(clip, number, destination, game, video_type):
     """
         Creates a thumbnail image from a clip and a video number.
     """
-    print(number, destination, game, video_type)
-
     name = remove_spaces(destination + '_' + game + '_' + video_type + '_' + str(number)) + '.png'
     path = constants.THUMBNAILS_LOCATION + name
 
-    download_thumbnail_to_location(clip['thumbnail'], path)
+    download_thumbnail_to_location(clip.thumbnail, path)
     
-    title = add_new_line_after_x_chars(clip['title'])
+    title = add_new_line_after_x_chars(clip.title)
 
     add_title(title, path)
     add_number(number, path)
