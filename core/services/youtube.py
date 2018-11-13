@@ -200,13 +200,13 @@ def resumableUpload(request):
 
 def upload_video_to_youtube(config):
     CREDENTIALS_FILE = constants.SECRETS_ROOT_LOCATION + \
-        config['channel'][1] + '/' + \
+        config['destination'] + '/' + \
         constants.YOUTUBE_CHANNEL_CREDENTIALS_FILE_NAME
 
     if os.path.isfile(CREDENTIALS_FILE):
         youtube = getAuthenticatedServiceFromStorage(CREDENTIALS_FILE)
     else:
-        os.makedirs(constants.SECRETS_ROOT_LOCATION + config['channel'][1])
+        os.makedirs(constants.SECRETS_ROOT_LOCATION + config['destination'])
         youtube = getAuthenticatedService(CREDENTIALS_FILE)
 
     try:

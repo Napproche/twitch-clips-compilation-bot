@@ -24,7 +24,8 @@ if __name__ == "__main__":
         DESTINATION, GAME, VIDEO_TYPE, CLIPS))
 
     # clips = twitchService.get_mock_clips(limit=CLIPS)
-    clips = twitchService.get_top_clips(period=VIDEO_TYPE, game=GAME, limit=CLIPS)
+    clips = twitchService.get_top_clips(
+        period=VIDEO_TYPE, game=GAME, limit=CLIPS)
 
     video_type = Type.get(name=VIDEO_TYPE)
     destination, created = Destination.get_or_create(name=DESTINATION)
@@ -32,26 +33,19 @@ if __name__ == "__main__":
     game = Game.get(name=GAME)
 
     for clip in clips:
-        twitchService.download_clip(constants.DOWNLOAD_LOCATION, clip)
-
-    output = constants.DOWNLOAD_LOCATION + \
-        datetime.date.today().strftime("%Y_%m_%d") + '.mp4'
-
-    print('Rendering video to location  %s' % (output))
-    moviePyService.create_video_of_list_of_clips(clips, output)
+        twitchService.download_clip(constants.DOWNLOAD_LOCATION, clip['slug'], clip['channel_slug'])
 
     video_count = Video.select().where(
         (Video.destination == destination) &
         (Video.type == video_type) &
         (Video.game == game)
-    ).count() + 1 
+    ).count() + 1
 
     video_title = metaService.create_video_title(
         clips[0]['title'], video_count, video_type.name, game.name)
 
-    video = Video(title=video_title, game=game,
-                  type=video_type, destination=destination)
-    video.save()
+    video = Video.create(title=video_title, game=game,
+                         type=video_type, destination=destination)
 
     for clip_data in clips:
         channel = Channel.get_or_create(
@@ -61,20 +55,31 @@ if __name__ == "__main__":
             url=clip_data['channel_url']
         )
 
-        clip = Clip.get_or_create(
-            title=clip_data['title'],
-            slug=clip_data['slug'],
-            views=clip_data['views'],
-            thumbnail=clip_data['thumbnail'],
-            duration=clip_data['duration'],
-            date=clip_data['date'],
-            used_in_compilation_video=False,
-            channel=channel[0],
-            game=game
-        )
+        print(channel)
 
-        clip = Clip.get(slug=clip_data['slug'])
+        clip = None
+        if Clip.select().where(Clip.slug == clip_data['slug']).exists():
+            clip = Clip.get(slug=clip_data['slug'])
+        else:
+            clip = Clip.create(
+                title=clip_data['title'],
+                slug=clip_data['slug'],
+                views=clip_data['views'],
+                thumbnail=clip_data['thumbnail'],
+                duration=clip_data['duration'],
+                date=clip_data['date'],
+                used_in_compilation_video=False,
+                channel=channel[0],
+                game=game
+            )
+        
         clip.videos.add(video)
+
+    output = constants.DOWNLOAD_LOCATION + \
+        datetime.date.today().strftime("%Y_%m_%d") + '.mp4'
+
+    print('Rendering video to location  %s' % (output))
+    moviePyService.create_video_of_list_of_clips(video.clips, output)
 
     thumbnail = thumbnailService.create(
         video.clips[0], video_count, destination.name, game.name, video_type.name)
@@ -85,7 +90,7 @@ if __name__ == "__main__":
     config['title'] = video_title
     config['description'] = metaService.create_video_description(video.clips)
     config['file'] = output
-    config['channel'] = destination
+    config['destination'] = destination.name
     config['thumbnail'] = thumbnail
 
     youtubeService.upload_video_to_youtube(config)

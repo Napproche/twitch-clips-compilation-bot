@@ -71,16 +71,14 @@ def fetch_top_clips(period, game, limit):
 	response = requests.get('https://api.twitch.tv/kraken/clips/top', headers=headers, params=params)
 	return response.json()
 
-def download_clip(basedir, clip):
-	channel = clip['channel_slug']
-	filename = clip['slug']
-	outputpath = (basedir + channel + '/' + filename + '.mp4').replace('\n', '')
+def download_clip(basedir, clip_slug, channel_slug):
+	outputpath = (basedir + channel_slug + '/' + clip_slug + '.mp4').replace('\n', '')
 
 	# Create downloads directory if it doesn't exist already
-	if not os.path.exists(basedir + channel + '/'):
-		os.makedirs(basedir + channel + '/')
+	if not os.path.exists(basedir + channel_slug + '/'):
+		os.makedirs(basedir + channel_slug + '/')
 
-	mp4url = get_clip_mp4_url(clip['slug'])
+	mp4url = get_clip_mp4_url(clip_slug)
 
 	# Download file to output path
 	print('Downloading: ' + mp4url + ' --> ' + outputpath)
@@ -90,6 +88,9 @@ def download_clip(basedir, clip):
 		if chunk: # filter out keep-alive new chunks
 			f.write(chunk)
 	f.close()
+
+def get_clip_output_path(basedir, clip):
+	return (basedir + clip.channel.slug + '/' + clip.slug + '.mp4').replace('\n', '')
 
 def get_clip_mp4_url(clip_slug):
 	url = "https://clips.twitch.tv/api/v2/clips/" + clip_slug + "/status"

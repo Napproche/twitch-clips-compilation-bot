@@ -7,7 +7,6 @@ from core.services import moviepy as moviePyService
 from core.services import youtube as youtubeService
 from core.services import meta as metaService
 from core.services import thumbnail as thumbnailService
-from core.models.logger import Logger
 from core.enums.video_type import VideoType
 
 from core.models.models import Game, Channel, Clip, Video, Destination, Type
@@ -29,20 +28,19 @@ if __name__ == "__main__":
 
     highest_clip_count = 0
 
-    # Get channel with most clips to make compilation of.
     channels = Channel.select()
     for channel in channels:
         clips = Clip.select().where(
             (Clip.channel == channel.id) &
             (Clip.used_in_compilation_video == False)
-        ).order_by(Clip.views)
+        ).order_by(-Clip.views)
 
         if len(clips) >= CLIP_COUNT:
 
             if len(clips) > highest_clip_count:
                 highest_clip_count = len(clips)
                 selected_channel = channel
-                selected_clips = clips
+                selected_clips = clips[:CLIP_COUNT]
 
     if selected_channel is not None:
         compilation_count = Video.select().where(
@@ -56,22 +54,30 @@ if __name__ == "__main__":
             selected_channel.slug + '_compilation_' + \
             str(compilation_count) + '.mp4'
 
+        for clip in selected_clips:
+            twitchService.download_clip(
+                constants.DOWNLOAD_LOCATION, clip.slug, clip.channel.slug)
+
         print('Rendering video to location  %s' % (output))
-        # moviePyService.create_video_of_list_of_clips(selected_clips, output)
+        moviePyService.create_video_of_list_of_clips(selected_clips, output)
 
         thumbnail = thumbnailService.create(
             selected_clips[0], compilation_count, destination.name, game.name, video_type.name)
 
         config = metaService.create_video_config(
             selected_clips, compilation_count, VIDEO_TYPE, game.name)
+        config['title'] = metaService.create_channel_compilation_video_title(selected_clips[0], game, compilation_count)
+        config['description'] = metaService.create_video_description(
+            selected_clips)
         config['file'] = output
-        config['channel'] = destination
+        config['destination'] = destination.name
         config['thumbnail'] = thumbnail
 
-        print(config)
+        for clip in selected_clips:
+            clip.used_in_compilation_video = True
+            clip.save()
+            os.remove(twitchService.get_clip_output_path(constants.DOWNLOAD_LOCATION, clip))
 
-        # # Update clips with used_in_compilation_video = True
-        # for clip in selected_clips:
-        #     print(clip)
-        #     # database.set_clip_used_in_compilation_video_true(clip[0])
-        #     # delete downloaded clips?
+        youtubeService.upload_video_to_youtube(config)
+
+        os.remove(output)
