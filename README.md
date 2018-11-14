@@ -40,6 +40,9 @@ Make sure the path matches the ROOT_LOCATION in the constants.py
 0 18 * * * python3 /root/twitch-clip-publisher/bot.py fhc Fortnite day 8
 0 1 * * 0 python3 /root/twitch-clip-publisher/bot.py fhc Fortnite week 8
 0 2 1 * * python3 /root/twitch-clip-publisher/bot.py fhc Fortnite month 8
+
+0 10 * * * python3 /root/twitch-clip-publisher/compilations.py fhc Fortnite 8
+0 20 * * * python3 /root/twitch-clip-publisher/compilations.py fhc Fortnite 8
 ```
 
 ### Common issues
