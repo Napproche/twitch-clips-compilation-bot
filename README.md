@@ -1,17 +1,12 @@
-# twitch-clip-publisher
-Bot that creates and uploads compilations of popular Twitch clips each day.
+# twitch-clip-compilation-creator
+Bot that can create compilation videos of:
+    - Most popular clips of the day
+    - Most popular clips of the week
+    - Most popular clips of the month
+    - Popular clips of a channel (Will create compilation when there are enough clips collected from a specific Twitch channel)
 
-Bot is used for these channels: 
+This bot is currently being used for this YouTube channel: 
 - Fortnite: https://www.youtube.com/channel/UCxavrT2r-9tsliwOsmRVZ7w
-- PUBG: https://www.youtube.com/channel/UCs89cVeXqCfs1uN2FXsKgNA
-- Rocket League: https://www.youtube.com/channel/UCyID9pf6qVvSXQfupMPza2A
-- Hearthstone: https://www.youtube.com/channel/UCzPGjHAZeUxrx1tl3Rg81QA
-
-The bot takes 4 parameters:
-- Channel: Channel name to upload to.
-- Game: The name of the game.
-- Video type: day/week/month/compilation.
-- Amount of clips: Amount of clips that will be rendered. 
 
 ## Setup
 

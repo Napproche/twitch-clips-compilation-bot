@@ -33,7 +33,8 @@ if __name__ == "__main__":
     game = Game.get(name=GAME)
 
     for clip in clips:
-        twitchService.download_clip(constants.DOWNLOAD_LOCATION, clip['slug'], clip['channel_slug'])
+        twitchService.download_clip(
+            constants.DOWNLOAD_LOCATION, clip['slug'], clip['channel_slug'])
 
     video_count = Video.select().where(
         (Video.destination == destination) &
@@ -55,8 +56,6 @@ if __name__ == "__main__":
             url=clip_data['channel_url']
         )
 
-        print(channel)
-
         clip = None
         if Clip.select().where(Clip.slug == clip_data['slug']).exists():
             clip = Clip.get(slug=clip_data['slug'])
@@ -72,7 +71,7 @@ if __name__ == "__main__":
                 channel=channel[0],
                 game=game
             )
-        
+
         clip.videos.add(video)
 
     output = constants.DOWNLOAD_LOCATION + \
@@ -85,7 +84,7 @@ if __name__ == "__main__":
         video.clips[0], video_count, destination.name, game.name, video_type.name)
 
     config = metaService.create_video_config(
-        clips, video_count, VIDEO_TYPE, game.name)
+        video.clips, video_count, VIDEO_TYPE, game.name)
 
     config['title'] = video_title
     config['description'] = metaService.create_video_description(video.clips)
