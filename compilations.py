@@ -62,11 +62,12 @@ if __name__ == "__main__":
         moviePyService.create_video_of_list_of_clips(selected_clips, output)
 
         thumbnail = thumbnailService.create(
-            selected_clips[0], compilation_count, destination.name, game.name, video_type.name)
+            selected_clips[0], compilation_count, destination.name, game.name, video_type.name, selected_clips[0].channel.logo)
 
         config = metaService.create_video_config(
             selected_clips, compilation_count, VIDEO_TYPE, game.name)
-        config['title'] = metaService.create_channel_compilation_video_title(selected_clips[0], game, compilation_count)
+        config['title'] = metaService.create_channel_compilation_video_title(
+            selected_clips[0], game, compilation_count)
         config['description'] = metaService.create_video_description(
             selected_clips)
         config['file'] = output
@@ -76,7 +77,8 @@ if __name__ == "__main__":
         for clip in selected_clips:
             clip.used_in_compilation_video = True
             clip.save()
-            os.remove(twitchService.get_clip_output_path(constants.DOWNLOAD_LOCATION, clip))
+            os.remove(twitchService.get_clip_output_path(
+                constants.DOWNLOAD_LOCATION, clip))
 
         youtubeService.upload_video_to_youtube(config)
 
