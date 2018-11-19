@@ -7,6 +7,7 @@ Bot that can create compilation videos of:
 
 This bot is currently being used for this YouTube channel: 
 - Fortnite: https://www.youtube.com/channel/UCxavrT2r-9tsliwOsmRVZ7w
+- Global Twitch: https://www.youtube.com/channel/UCzPGjHAZeUxrx1tl3Rg81QA
 
 ## Setup
 
@@ -36,13 +37,21 @@ Install fonts in `/usr/local/share/fonts` and reboot.
 ### Cron job example
 Make sure the path matches the ROOT_LOCATION in the constants.py
 ```
-# Fortnite Highlights Creator channel
-0 18 * * * python3 /root/twitch-clip-publisher/bot.py fhc Fortnite day 8
-0 1 * * 0 python3 /root/twitch-clip-publisher/bot.py fhc Fortnite week 8
-0 2 1 * * python3 /root/twitch-clip-publisher/bot.py fhc Fortnite month 8
+# Fortnite Highlights Creator channel (fhc)
+0 18 * * * python3 /root/twitch-clip-publisher/bot.py fhc day Fortnite 6
+0 1 * * 0 python3 /root/twitch-clip-publisher/bot.py fhc week Fortnite 6
+0 3 1 * * python3 /root/twitch-clip-publisher/bot.py fhc month Fortnite 6
 
-0 10 * * * python3 /root/twitch-clip-publisher/compilations.py fhc Fortnite 8
-0 20 * * * python3 /root/twitch-clip-publisher/compilations.py fhc Fortnite 8
+0 5 * * * python3 /root/twitch-clip-publisher/compilations.py fhc Fortnite 6
+0 7 * * * python3 /root/twitch-clip-publisher/compilations.py fhc Fortnite 6
+
+# Global Twitch Highlights Creator channel (hhc)
+0 20 * * * python3 /root/twitch-clip-publisher/bot.py hhc day Global 6
+0 9 * * 0 python3 /root/twitch-clip-publisher/bot.py hhc week Global 6
+0 11 1 * * python3 /root/twitch-clip-publisher/bot.py hhc month Global 6
+
+0 23 * * * python3 /root/twitch-clip-publisher/compilations.py hhc Global 6
+0 19 * * * python3 /root/twitch-clip-publisher/compilations.py hhc Global 6
 ```
 
 ### Common issues
