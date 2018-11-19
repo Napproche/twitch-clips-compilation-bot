@@ -8,20 +8,16 @@ from core.services import youtube as youtubeService
 from core.services import meta as metaService
 from core.services import thumbnail as thumbnailService
 from core.enums.video_type import VideoType
-
+from core.models.logger import Logger
+from core.models.parameters import Parameters
 from core.models.models import Game, Channel, Clip, Video, Destination, Type
 
 import constants
 
 if __name__ == "__main__":
-    DESTINATION = sys.argv[1]
-    GAME = sys.argv[2]
-    CLIP_COUNT = int(sys.argv[3])
-    VIDEO_TYPE = VideoType.Compilation.value
-
-    game = Game.get(Game.name == GAME)
-    destination = Destination.get(Destination.name == DESTINATION)
-    video_type = Type.get(Type.id == VIDEO_TYPE)
+    parameters = Parameters(script_name=sys.argv[0], destination=sys.argv[1],
+                            video_type=VideoType.Compilation.value, game=sys.argv[2], count=int(sys.argv[3]))
+    logger = Logger(parameters)
 
     selected_channel = None
     selected_clips = []
@@ -35,18 +31,19 @@ if __name__ == "__main__":
             (Clip.used_in_compilation_video == False)
         ).order_by(-Clip.views)
 
-        if len(clips) >= CLIP_COUNT:
+        if len(clips) >= parameters.count:
 
             if len(clips) > highest_clip_count:
                 highest_clip_count = len(clips)
                 selected_channel = channel
-                selected_clips = clips[:CLIP_COUNT]
+                selected_clips = clips[:parameters.count]
 
     if selected_channel is not None:
         compilation_count = Video.select().where(
-            (Video.type == video_type) &
-            (Video.game == game) &
-            (Video.channel == channel)
+            (Video.type == parameters.video_type) &
+            (Video.game == parameters.game) &
+            (Video.channel == channel) &
+            (Video.destination == parameters.destination)
         ).count() + 1
 
         output = constants.DOWNLOAD_LOCATION + \
@@ -59,23 +56,29 @@ if __name__ == "__main__":
                 constants.DOWNLOAD_LOCATION, clip.slug, clip.channel.slug)
 
         print('Rendering video to location  %s' % (output))
-        moviePyService.create_video_of_list_of_clips(selected_clips, output)
+        # moviePyService.create_video_of_list_of_clips(selected_clips, output)
 
         thumbnail = thumbnailService.create(
-            selected_clips[0], compilation_count, destination.name, game.name, video_type.name, selected_clips[0].channel.logo)
+            selected_clips[0], compilation_count, parameters.destination.name, parameters.game.name, parameters.video_type.name, selected_clips[0].channel.logo)
+
+        compilation_title = metaService.create_channel_compilation_video_title(
+            selected_clips[0], parameters.game, compilation_count)
+
+        video = Video.create(title=compilation_title, game=parameters.game,
+                             type=parameters.video_type, destination=parameters.destination, channel=selected_channel)
 
         config = metaService.create_video_config(
-            selected_clips, compilation_count, VIDEO_TYPE, game.name)
-        config['title'] = metaService.create_channel_compilation_video_title(
-            selected_clips[0], game, compilation_count)
+            selected_clips, parameters.game.name)
+        config['title'] = compilation_title
         config['description'] = metaService.create_video_description(
             selected_clips)
         config['file'] = output
-        config['destination'] = destination.name
+        config['destination'] = parameters.destination.name
         config['thumbnail'] = thumbnail
 
         for clip in selected_clips:
             clip.used_in_compilation_video = True
+            clip.videos.add(video)
             clip.save()
             os.remove(twitchService.get_clip_output_path(
                 constants.DOWNLOAD_LOCATION, clip))

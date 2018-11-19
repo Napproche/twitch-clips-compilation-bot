@@ -10,3 +10,4 @@ if __name__ == "__main__":
     Type.create(name='compilation')
 
     Game.create(name='Fortnite', full='Fortnite')
+    Game.create(name='Global', full='Global')

@@ -1,4 +1,4 @@
-def create_video_config(clips, video_count, video_type, game):
+def create_video_config(clips, game):
     config = {}
     config['category'] = 20  # Gaming ID
     config['keywords'] = get_keywords(game, clips)

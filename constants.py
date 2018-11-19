@@ -14,6 +14,8 @@ YOUTUBE_CHANNEL_CREDENTIALS_FILE_NAME = "credentials.json"
 
 DATABASE_LOCATION = ROOT_LOCATION + "database.db"
 
+ERROR_LOGGING_FILE = "errors.log"
+
 BLACKLISTED_CHANNELS = ["DisguisedToastHS",
                         "xChocoBars", "pokimane", "LilyPichu"]
 
