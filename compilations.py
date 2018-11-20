@@ -56,7 +56,7 @@ if __name__ == "__main__":
                 constants.DOWNLOAD_LOCATION, clip.slug, clip.channel.slug)
 
         print('Rendering video to location  %s' % (output))
-        # moviePyService.create_video_of_list_of_clips(selected_clips, output)
+        moviePyService.create_video_of_list_of_clips(selected_clips, output)
 
         thumbnail = thumbnailService.create(
             selected_clips[0], compilation_count, parameters.destination.name, parameters.game.name, parameters.video_type.name, selected_clips[0].channel.logo)
