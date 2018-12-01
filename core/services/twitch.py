@@ -40,7 +40,7 @@ def fetch_top_clips(period, game, count):
         'Client-ID': get_client_id(),
     }
 
-    if game == 'Global':
+    if game == 'Twitch':
         params = (
             ('period', period),
             ('count', count),

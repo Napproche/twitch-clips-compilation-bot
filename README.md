@@ -40,18 +40,20 @@ Make sure the path matches the ROOT_LOCATION in the constants.py
 # Fortnite Highlights Creator channel (fhc)
 0 18 * * * python3 /root/twitch-clip-publisher/bot.py fhc day Fortnite 6
 0 1 * * 0 python3 /root/twitch-clip-publisher/bot.py fhc week Fortnite 6
-0 3 1 * * python3 /root/twitch-clip-publisher/bot.py fhc month Fortnite 6
 
-0 5 * * * python3 /root/twitch-clip-publisher/compilations.py fhc Fortnite 6
 0 7 * * * python3 /root/twitch-clip-publisher/compilations.py fhc Fortnite 6
 
 # Global Twitch Highlights Creator channel (rlhc)
-0 20 * * * python3 /root/twitch-clip-publisher/bot.py rlhc day Global 6
-0 9 * * 0 python3 /root/twitch-clip-publisher/bot.py rlhc week Global 6
-0 11 1 * * python3 /root/twitch-clip-publisher/bot.py rlhc month Global 6
+0 20 * * * python3 /root/twitch-clip-publisher/bot.py rlhc day Twitch 6
+0 3 * * 0 python3 /root/twitch-clip-publisher/bot.py rlhc week Twitch 6
 
-0 23 * * * python3 /root/twitch-clip-publisher/compilations.py rlhc Global 6
-0 19 * * * python3 /root/twitch-clip-publisher/compilations.py rlhc Global 6
+0 9 * * * python3 /root/twitch-clip-publisher/compilations.py rlhc Twitch 6
+
+# Just chatting Highlights Creator channel (pubghc)
+0 22 * * * python3 /root/twitch-clip-publisher/bot.py pubghc day Just%20Chatting 6
+0 5 * * 0 python3 /root/twitch-clip-publisher/bot.py pubghc week Just%20Chatting 6
+
+0 11 * * * python3 /root/twitch-clip-publisher/compilations.py pubghc Just%20Chatting 6
 ```
 
 ### Common issues
