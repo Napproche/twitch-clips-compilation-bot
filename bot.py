@@ -34,7 +34,7 @@ if __name__ == "__main__":
     ).count() + 1
 
     video_title = metaService.create_video_title(
-        clips[0]['title'], video_count, parameters.video_type.name, parameters.game.name)
+        clips[0]['title'], video_count, parameters.video_type.name, parameters.game.full)
 
     video = Video.create(title=video_title, game=parameters.game,
                          type=parameters.video_type, destination=parameters.destination)
@@ -74,7 +74,7 @@ if __name__ == "__main__":
     thumbnail = thumbnailService.create(
         video.clips[0], video_count, parameters.destination.name, parameters.game.name, parameters.video_type.name)
 
-    config = metaService.create_video_config(video.clips, parameters.game.name)
+    config = metaService.create_video_config(video.clips, parameters.game.full)
 
     config['title'] = video_title
     config['description'] = metaService.create_video_description(video.clips)

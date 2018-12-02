@@ -68,7 +68,7 @@ if __name__ == "__main__":
                              type=parameters.video_type, destination=parameters.destination, channel=selected_channel)
 
         config = metaService.create_video_config(
-            selected_clips, parameters.game.name)
+            selected_clips, parameters.game.full)
         config['title'] = compilation_title
         config['description'] = metaService.create_video_description(
             selected_clips)
