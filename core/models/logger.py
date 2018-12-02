@@ -13,8 +13,8 @@ class Logger:
         logging.exception(exception)
 
     def start_script(self, parameters):
-        message = 'Starting script: {0} with parameters: {1}, {2}, {3}, {4}'.format(
-            parameters.script_name, parameters.destination.name, parameters.video_type.name, parameters.count, parameters.game.name)
+        message = 'Starting script: {0} with parameters: {1}, {2}, {3}, {4}, {5}'.format(
+            parameters.script_name, parameters.destination.name, parameters.video_type.name, parameters.count, parameters.game.name, parameters.custom_thumbnails)
 
         logging.warn(
             '--------------------------------------------------------------------------------------')

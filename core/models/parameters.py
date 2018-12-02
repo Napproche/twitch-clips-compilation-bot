@@ -9,4 +9,4 @@ class Parameters:
         self.video_type = Type.get(name=video_type)
         self.game = Game.get(name=game)
         self.count = count
-        self.custom_thumbnails = custom_thumbnails
+        self.custom_thumbnails = bool(int(custom_thumbnails))

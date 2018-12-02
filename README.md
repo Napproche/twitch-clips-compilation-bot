@@ -38,22 +38,22 @@ Install fonts in `/usr/local/share/fonts` and reboot.
 Make sure the path matches the ROOT_LOCATION in the constants.py
 ```
 # Fortnite Highlights Creator channel (fhc)
-0 18 * * * python3 /root/twitch-clip-publisher/bot.py fhc day Fortnite 6 True
-0 1 * * 0 python3 /root/twitch-clip-publisher/bot.py fhc week Fortnite 6 True
+0 18 * * * python3 /root/twitch-clip-publisher/bot.py fhc day Fortnite 6 1
+0 1 * * 0 python3 /root/twitch-clip-publisher/bot.py fhc week Fortnite 6 1
 
-0 7 * * * python3 /root/twitch-clip-publisher/compilations.py fhc Fortnite 6 True
+0 7 * * * python3 /root/twitch-clip-publisher/compilations.py fhc Fortnite 6 1
 
 # Global Twitch Highlights Creator channel (rlhc)
-0 20 * * * python3 /root/twitch-clip-publisher/bot.py rlhc day Twitch 6 True
-0 3 * * 0 python3 /root/twitch-clip-publisher/bot.py rlhc week Twitch 6 True
+0 20 * * * python3 /root/twitch-clip-publisher/bot.py rlhc day Twitch 6 1
+0 3 * * 0 python3 /root/twitch-clip-publisher/bot.py rlhc week Twitch 6 1
 
-0 9 * * * python3 /root/twitch-clip-publisher/compilations.py rlhc Twitch 6 True
+0 9 * * * python3 /root/twitch-clip-publisher/compilations.py rlhc Twitch 6 1
 
 # Just chatting Highlights Creator channel (jchc)
-0 22 * * * python3 /root/twitch-clip-publisher/bot.py jchc day Just%20Chatting 6
-0 5 * * 0 python3 /root/twitch-clip-publisher/bot.py jchc week Just%20Chatting 6
+0 22 * * * python3 /root/twitch-clip-publisher/bot.py jchc day Just%20Chatting 6 0
+0 5 * * 0 python3 /root/twitch-clip-publisher/bot.py jchc week Just%20Chatting 6 0
 
-0 11 * * * python3 /root/twitch-clip-publisher/compilations.py jchc Just%20Chatting 6
+0 11 * * * python3 /root/twitch-clip-publisher/compilations.py jchc Just%20Chatting 6 0
 ```
 
 ### Common issues
