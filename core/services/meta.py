@@ -15,11 +15,11 @@ def get_keywords(game, clips):
 
 def create_video_title(clip_title, video_count, video_type, game):
     return "%s | Most Viewed %s Clips Of The %s #%s" % (
-        clip_title.upper(), game, video_type.capitalize(), video_count)
+        shorten_title_if_needed(clip_title.upper(), 45), game, video_type.capitalize(), video_count)
 
 
 def create_channel_compilation_video_title(clip, game, video_count):
-    return "%s | Most Viewed %s %s Clips Compilation #%s" % (clip.title.upper(), clip.channel.name, game.full, video_count)
+    return "%s | Most Viewed %s %s Clips Compilation #%s" % (shorten_title_if_needed(clip.title.upper(), 45), clip.channel.name, game.full, video_count)
 
 
 def create_video_description(clips):
@@ -36,7 +36,16 @@ def create_video_description(clips):
 
 
 def clean_title(title):
-    # Remove < and >
+    """
+        Remove < and >
+    """
     title = title.replace("<", "")
     title = title.replace(">", "")
     return title
+
+
+def shorten_title_if_needed(title, max_chars):
+    """
+        Strip title if needed to fit in the max length of 100 chars of a YouTube video.
+    """
+    return (title[:max_chars] + '...') if len(title) > max_chars else title
