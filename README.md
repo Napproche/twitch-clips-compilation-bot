@@ -49,11 +49,11 @@ Make sure the path matches the ROOT_LOCATION in the constants.py
 
 0 9 * * * python3 /root/twitch-clip-publisher/compilations.py rlhc Twitch 6
 
-# Just chatting Highlights Creator channel (pubghc)
-0 22 * * * python3 /root/twitch-clip-publisher/bot.py pubghc day Just%20Chatting 6
-0 5 * * 0 python3 /root/twitch-clip-publisher/bot.py pubghc week Just%20Chatting 6
+# Just chatting Highlights Creator channel (jchc)
+0 22 * * * python3 /root/twitch-clip-publisher/bot.py jchc day Just%20Chatting 6
+0 5 * * 0 python3 /root/twitch-clip-publisher/bot.py jchc week Just%20Chatting 6
 
-0 11 * * * python3 /root/twitch-clip-publisher/compilations.py pubghc Just%20Chatting 6
+0 11 * * * python3 /root/twitch-clip-publisher/compilations.py jchc Just%20Chatting 6
 ```
 
 ### Common issues

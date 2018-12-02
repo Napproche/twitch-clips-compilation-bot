@@ -89,7 +89,7 @@ def add_game_icon(game, path):
 
 def add_channel_logo(logo_path, thumbnail_path):
     background = Image.open(thumbnail_path)
-    foreground = Image.open(logo_path)
+    foreground = Image.open(logo_path).convert("RGBA")
     new_width = 100
     new_height = 100
     foreground = add_corners(foreground, 70)
