@@ -3,6 +3,7 @@ from moviepy.editor import VideoFileClip, concatenate_videoclips, CompositeVideo
 import constants
 
 def create_video_of_list_of_clips(clips, output):
+    print('Rendering video to location  %s' % (output))
     final_clips = []
 
     for clip in clips:

@@ -15,7 +15,8 @@ from core.models.models import Game, Type, Destination, Video, Clip, Channel
 import constants
 
 if __name__ == "__main__":
-    parameters = Parameters(script_name=sys.argv[0], destination=sys.argv[1], video_type=sys.argv[2], game=sys.argv[3], count=int(sys.argv[4]))
+    parameters = Parameters(script_name=sys.argv[0], destination=sys.argv[1],
+                            video_type=sys.argv[2], game=sys.argv[3], count=int(sys.argv[4]), custom_thumbnails=sys.argv[5])
     logger = Logger(parameters)
 
     # clips = twitchService.get_mock_clips(limit=CLIPS)
@@ -29,7 +30,7 @@ if __name__ == "__main__":
     video_count = Video.select().where(
         (Video.destination == parameters.destination) &
         (Video.type == parameters.video_type) &
-        (Video.game == parameters.game) & 
+        (Video.game == parameters.game) &
         (Video.destination == parameters.destination)
     ).count() + 1
 
@@ -68,11 +69,7 @@ if __name__ == "__main__":
     output = constants.DOWNLOAD_LOCATION + \
         datetime.date.today().strftime("%Y_%m_%d") + '.mp4'
 
-    print('Rendering video to location  %s' % (output))
     moviePyService.create_video_of_list_of_clips(video.clips, output)
-
-    thumbnail = thumbnailService.create(
-        video.clips[0], video_count, parameters.destination.name, parameters.game.name, parameters.video_type.name)
 
     config = metaService.create_video_config(video.clips, parameters.game.full)
 
@@ -80,7 +77,10 @@ if __name__ == "__main__":
     config['description'] = metaService.create_video_description(video.clips)
     config['file'] = output
     config['destination'] = parameters.destination.name
-    config['thumbnail'] = thumbnail
+
+    if parameters.custom_thumbnails:
+        config['thumbnail'] = thumbnailService.create(
+            video.clips[0], video_count, parameters.destination.name, parameters.game.name, parameters.video_type.name)
 
     youtubeService.upload_video_to_youtube(config)
 

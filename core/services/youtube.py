@@ -222,7 +222,8 @@ def upload_video_to_youtube(config):
         )
 
         # Upload thumbnail
-        thumbnails_set(youtube, config['thumbnail'], videoId=videoId)
+        if 'thumbnail' in config:
+            thumbnails_set(youtube, config['thumbnail'], videoId=videoId)
     except HttpError as e:
         print('An HTTP error %d occurred:\n%s' % (e.resp.status, e.content))
 

@@ -16,7 +16,7 @@ import constants
 
 if __name__ == "__main__":
     parameters = Parameters(script_name=sys.argv[0], destination=sys.argv[1],
-                            video_type=VideoType.Compilation.value, game=sys.argv[2], count=int(sys.argv[3]))
+                            video_type=VideoType.Compilation.value, game=sys.argv[2], count=int(sys.argv[3]), custom_thumbnails=sys.argv[4])
     logger = Logger(parameters)
 
     selected_channel = None
@@ -55,11 +55,7 @@ if __name__ == "__main__":
             twitchService.download_clip(
                 constants.DOWNLOAD_LOCATION, clip.slug, clip.channel.slug)
 
-        print('Rendering video to location  %s' % (output))
         moviePyService.create_video_of_list_of_clips(selected_clips, output)
-
-        thumbnail = thumbnailService.create(
-            selected_clips[0], compilation_count, parameters.destination.name, parameters.game.name, parameters.video_type.name, selected_clips[0].channel.logo)
 
         compilation_title = metaService.create_channel_compilation_video_title(
             selected_clips[0], parameters.game, compilation_count)
@@ -74,7 +70,10 @@ if __name__ == "__main__":
             selected_clips)
         config['file'] = output
         config['destination'] = parameters.destination.name
-        config['thumbnail'] = thumbnail
+
+        if parameters.count:
+            config['thumbnail'] = thumbnailService.create(
+                selected_clips[0], compilation_count, parameters.destination.name, parameters.game.name, parameters.video_type.name, selected_clips[0].channel.logo)
 
         for clip in selected_clips:
             clip.used_in_compilation_video = True
