@@ -110,11 +110,33 @@ def remove_spaces(string):
     return string.replace(" ", "_")
 
 
-def add_new_line_after_x_chars(string):
+def add_new_line_after_x_chars(s):
     """
         Add a newline after 18 characters. Counted for 70pt font.
     """
-    return re.sub("(.{18})", "\\1\n", string, 0, re.DOTALL)
+    break_pos = 18
+
+    counter = len(s)
+    for char in s:
+        counter -= 1
+        x = counter / break_pos
+        if x.is_integer() and x != 0:
+            i = counter
+            while (i > 0):
+                char = s[i]
+                i -= 1
+                if char == " ":
+                    s = add_breakspace(s, i+1)
+                    i = 0
+
+    # s = re.sub("(.{18})", "\\1\n", s, 0, re.DOTALL)
+    return s
+
+
+def add_breakspace(str, position):
+    s = str[:position] + str[position+1:]
+    s = s[:position] + "\n" + s[position:]
+    return s
 
 
 def add_corners(im, rad):
