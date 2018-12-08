@@ -6,3 +6,4 @@ database.db
 errors.log
 tcp/
 settings.json
+assets/misc/constants.js

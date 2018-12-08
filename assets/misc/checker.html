@@ -1,0 +1,60 @@
+<html>
+
+<body>
+    <ul class="items"></ul>
+</body>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://momentjs.com/downloads/moment.min.js"></script>
+<script src="constants.js"></script>
+
+<script>
+    $(document).ready(function () { onInit(); });
+
+    function onInit() {
+        channels.forEach(channel => getData(channel));
+    }
+
+    function getData(channelId) {
+        var url = `https://www.googleapis.com/youtube/v3/search?key=${key}&channelId=${channelId}&part=snippet,id&order=date&maxResults=1`;
+        request(url, show);
+    }
+
+    function request(url, success) {
+        $.ajax({ url, success });
+    }
+
+    function show(channel) {
+        var video = channel.items[0].snippet;
+        var videoId = channel.items[0].id.videoId;
+        var lastVideoDate = new Date(video.publishedAt);
+
+        var html = `
+            <li>
+                <span style="color: ${ getErrorStyles(hasNotUploadedYesterday(lastVideoDate))}">
+                    <strong>${moment(lastVideoDate).startOf('hour').fromNow()}:</strong>
+                </span>
+                ${video.channelTitle}
+            </li>
+            
+            <a href="https://www.youtube.com/watch?v=${videoId}" target="_blank">${video.title}</a>
+            <br>
+            <img src="${video.thumbnails.high.url}" width="150px">
+            <br><br>
+        `;
+
+        $('.items').append(html);
+    }
+
+    function getErrorStyles(trueOrFalse) {
+        return (trueOrFalse) ? 'red' : 'green';
+    }
+
+    function hasNotUploadedYesterday(date) {
+        var today = new Date();
+        var yesterday = new Date(today.setDate(today.getDate() - 1));
+        return date < yesterday;
+    }
+</script>
+
+</html>
