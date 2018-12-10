@@ -14,6 +14,7 @@ class BaseModel(Model):
 class Game(BaseModel):
     name = CharField()
     full = CharField()
+    cli = CharField()
 
 
 class Type(BaseModel):

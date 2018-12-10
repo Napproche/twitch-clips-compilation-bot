@@ -7,6 +7,6 @@ class Parameters:
         self.destination = Destination.get(name=destination.name)
         self.script_name = script_name
         self.video_type = Type.get(name=video_type)
-        self.game = Game.get(name=game)
+        self.game = Game.get(cli=game)
         self.count = count
         self.custom_thumbnails = bool(int(custom_thumbnails))

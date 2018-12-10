@@ -38,19 +38,19 @@ Install fonts in `/usr/local/share/fonts` and reboot.
 Make sure the path matches the ROOT_LOCATION in the constants.py
 ```
 # Fortnite Highlights Creator channel (fhc)
-0 18 * * * python3 /root/twitch-clip-publisher/bot.py fhc day Fortnite 6 1
-0 1 * * 0 python3 /root/twitch-clip-publisher/bot.py fhc week Fortnite 6 1
-0 7 * * * python3 /root/twitch-clip-publisher/compilations.py fhc Fortnite 6 1
+0 18 * * * python3 /root/twitch-clip-publisher/bot.py fhc day fortnite 6 1
+0 1 * * 0 python3 /root/twitch-clip-publisher/bot.py fhc week fortnite 6 1
+0 7 * * * python3 /root/twitch-clip-publisher/compilations.py fhc fortnite 6 1
 
 # Global Twitch Highlights Creator channel (rlhc)
-0 19 * * * python3 /root/twitch-clip-publisher/bot.py rlhc day Twitch 6 1
-0 2 * * 0 python3 /root/twitch-clip-publisher/bot.py rlhc week Twitch 6 1
+0 19 * * * python3 /root/twitch-clip-publisher/bot.py rlhc day twitch 6 1
+0 2 * * 0 python3 /root/twitch-clip-publisher/bot.py rlhc week twitch 6 1
 
 # Just chatting Highlights Creator channel (jchc)
-0 17 * * * python3 /root/twitch-clip-publisher/bot.py jchc day Just%20Chatting 6 0
+0 17 * * * python3 /root/twitch-clip-publisher/bot.py jchc day justchatting 6 0
 
 # Super Smash Bros. Ultimate Highlights Creator channel (hhc)
-0 16 * * * python3 /root/twitch-clip-publisher/bot.py hhc day Super%20Smash%20Bros.%20Ultimate 6 0
+0 16 * * * python3 /root/twitch-clip-publisher/bot.py hhc day supersmashbrosultimate 6 0
 ```
 
 ### Common issues

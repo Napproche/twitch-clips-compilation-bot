@@ -19,7 +19,7 @@ if __name__ == "__main__":
                             video_type=sys.argv[2], game=sys.argv[3], count=int(sys.argv[4]), custom_thumbnails=sys.argv[5])
     logger = Logger(parameters)
 
-    # clips = twitchService.get_mock_clips(limit=CLIPS)
+    # clips = twitchService.get_mock_clips(count=parameters.count)
     clips = twitchService.get_top_clips(
         period=parameters.video_type.name, game=parameters.game.name, count=parameters.count)
 
