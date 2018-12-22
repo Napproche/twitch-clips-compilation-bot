@@ -71,12 +71,8 @@ if __name__ == "__main__":
 
     moviePyService.create_video_of_list_of_clips(video.clips, output)
 
-    config = metaService.create_video_config(video.clips, parameters.game.full)
-
-    config['title'] = video_title
-    config['description'] = metaService.create_video_description(video.clips)
-    config['file'] = output
-    config['destination'] = parameters.destination.name
+    config = metaService.create_video_config(
+        clips=video.clips, game=parameters.game.full, title=video_title, file=output, destination=parameters.destination.name)
 
     if parameters.custom_thumbnails:
         config['thumbnail'] = thumbnailService.create(

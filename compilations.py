@@ -64,12 +64,7 @@ if __name__ == "__main__":
                              type=parameters.video_type, destination=parameters.destination, channel=selected_channel)
 
         config = metaService.create_video_config(
-            selected_clips, parameters.game.full)
-        config['title'] = compilation_title
-        config['description'] = metaService.create_video_description(
-            selected_clips)
-        config['file'] = output
-        config['destination'] = parameters.destination.name
+            clips=selected_clips, game=parameters.game.full, title=compilation_title, file=output, destination=parameters.destination.name)
 
         if parameters.count:
             config['thumbnail'] = thumbnailService.create(
