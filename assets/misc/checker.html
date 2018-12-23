@@ -1,6 +1,7 @@
 <html>
 
 <body>
+    <div id="statistics"></div>
     <ul class="items"></ul>
 </body>
 
@@ -9,25 +10,32 @@
 <script src="constants.js"></script>
 
 <script>
+    var _subscribers = 0;
+    var _views = 0;
+    var _videos = 0;
+
     $(document).ready(function () { onInit(); });
 
     function onInit() {
         channels.forEach(channel => getData(channel));
     }
 
+    function request(url, success) { $.ajax({ url, success }); }
+
     function getData(channelId) {
-        var url = `https://www.googleapis.com/youtube/v3/search?key=${key}&channelId=${channelId}&part=snippet,id&order=date&maxResults=1`;
-        request(url, show);
+        var lastVideoUrl = `https://www.googleapis.com/youtube/v3/search?key=${key}&channelId=${channelId}&part=snippet,id&order=date&maxResults=1`;
+        var channelUrl = `https://content.googleapis.com/youtube/v3/channels?part=snippet%2Cstatistics&id=${channelId}&key=${key}`;
+
+        request(channelUrl, (channel) => {
+            request(lastVideoUrl, (lastVideo) => show(channel, lastVideo));
+        });
     }
 
-    function request(url, success) {
-        $.ajax({ url, success });
-    }
-
-    function show(channel) {
-        var video = channel.items[0].snippet;
-        var videoId = channel.items[0].id.videoId;
+    function show(channelData, lastVideoData) {
+        var video = lastVideoData.items[0].snippet;
+        var videoId = lastVideoData.items[0].id.videoId;
         var lastVideoDate = new Date(video.publishedAt);
+        var statistics = channelData.items[0].statistics;
 
         var html = `
             <li>
@@ -35,6 +43,7 @@
                     <strong>${moment(lastVideoDate).startOf('hour').fromNow()}:</strong>
                 </span>
                 ${video.channelTitle}
+                <strong>(${statistics.subscriberCount} subscribers, ${statistics.viewCount} views, ${statistics.videoCount} videos)</strong>
             </li>
             
             <a href="https://www.youtube.com/watch?v=${videoId}" target="_blank">${video.title}</a>
@@ -44,6 +53,7 @@
         `;
 
         $('.items').append(html);
+        updateStats(statistics);
     }
 
     function getErrorStyles(trueOrFalse) {
@@ -54,6 +64,18 @@
         var today = new Date();
         var yesterday = new Date(today.setDate(today.getDate() - 1));
         return date < yesterday;
+    }
+
+    function updateStats(statistics) {
+        _subscribers += Number(statistics.subscriberCount);
+        _views += Number(statistics.viewCount);
+        _videos += Number(statistics.videoCount);
+
+        $('#statistics').html(`
+            <strong>${_subscribers} Subscribers</strong>
+            <strong>${_views} views</strong>
+            <strong>${_videos} videos</strong>
+        `);
     }
 </script>
 
